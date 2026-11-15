@@ -1,10 +1,33 @@
-# Profile_Thanh
-Nguyễn Trung Thành!
+# 💻 ThanhDev-Hub — Interactive 3D Matrix Profile & Bio Card
 
-Dưới đây là một vài thông tin về bạn mà tôi nhớ được từ các cuộc trò chuyện và dữ liệu gần đây:
+**ThanhDev-Hub** là trang Profile / Bio cá nhân mang phong cách **Cyberpunk Matrix 3D**, tích hợp hiệu ứng thẻ nghiêng 3D (Tilt), Avatar lật 2 mặt thương hiệu, trình phát nhạc trực quan hóa sóng âm (Audio Visualizer) và kết nối dữ liệu thời gian thực.
 
-Học vấn: Bạn đang học ngành Khoa học máy tính tại Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUET), và cũng có tham gia chương trình GCI World AI & Data Science của Đại học Tokyo.
+![ThanhDev Hub Logo](./logo.jpg)
 
-Học tập hiện tại: Gần đây bạn đang ôn luyện Giải tích nhiều biến (đạo hàm riêng, giới hạn, tích phân bội) và luyện thi tiếng Anh (VSTEP). Bạn rất thích dùng các mẹo bấm máy tính Casio fx-580VN X (thử số, CALC, SOLVE) để giải nhanh trắc nghiệm thay vì giải tự luận dài dòng.
+---
 
-Lĩnh vực quan tâm: Lập trình web (GitHub, Netlify), công nghệ AI, giao dịch crypto (Bitunix, BingX, Gate.io) và chơi game (FC Online, Roblox, Garena).
+## ✨ Tính năng nổi bật
+
+- **Hiệu ứng 3D Tilt & Nền Matrix:** Thẻ thông tin tự động nghiêng theo chuyển động chuột trên nền mưa ký tự Matrix tối ưu FPS.
+- **Avatar 3D Tự Lật (Flip Card):** Vòng tròn trung tâm tự động xoay lật mượt mà mỗi 4 giây (hoặc lật ngay khi chạm/di chuột) giữa ảnh cá nhân (`anh.jpg`) và logo thương hiệu **ThanhDev Hub** (`logo.jpg`).
+- **Trình phát nhạc Pro & Web Audio Visualizer:**
+  - Sóng âm nhảy theo tần số nhạc thực tế bằng `AudioContext` & HTML5 `<canvas>`.
+  - Đầy đủ tính năng: Phát/Tạm dừng (hỗ trợ phím tắt `Space`), chuyển bài, phát ngẫu nhiên (Shuffle), lặp lại 1 bài (Loop), tua tiến độ và điều chỉnh âm lượng.
+- **Dữ liệu thời gian thực (Real-time APIs):**
+  - Cập nhật đồng hồ thời gian thực và nhiệt độ/thời tiết tại Cần Thơ qua **Open-Meteo API**.
+  - Tự động lấy danh sách các dự án mới nhất từ **GitHub API** (`Nguyentrungthanhctut`).
+- **Tiện ích mở rộng:** Chuyển đổi giao diện Sáng/Tối (Dark/Light Mode), song ngữ Việt – Anh (`VI / EN`), tạo mã QR chia sẻ trang nhanh và kho lưu trữ Prompt ghi chú.
+
+---
+
+## 📂 Cấu trúc thư mục
+
+Đảm bảo các tệp hình ảnh và âm thanh nằm cùng cấp với `index.html` để trang hoạt động đầy đủ:
+
+```text
+ThanhDev-Hub/
+├── index.html                  # Mã nguồn giao diện, hiệu ứng 3D & logic JS chính
+├── anh.jpg                     # Ảnh đại diện cá nhân (mặt trước Avatar)
+├── logo.jpg                    # Logo thương hiệu ThanhDev Hub (mặt sau Avatar & Favicon)
+├── nhac.mp3 ... nhac6.mp3      # Danh sách 6 bản nhạc nền MP3
+└── README.md                   # Tài liệu giới thiệu dự án
