@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile | Nguyễn Trung Thành</title>
+    <title>Profile | Nguyễn Trung Thành - ThanhDev Hub</title>
+    <!-- Favicon Logo -->
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -51,18 +53,52 @@
         .icon-btn:hover { background: rgba(0, 255, 65, 0.4); transform: scale(1.1); color: #fff; }
         body.light-theme .icon-btn:hover { background: #059669; color: #fff; }
 
-        /* Avatar & Trạng thái Online */
-        .avatar-wrapper { position: relative; display: inline-block; margin-bottom: 12px; transform: translateZ(40px); }
-        .profile-img {
-            width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+        /* ================= 3D FLIP AVATAR & LOGO.JPG ================= */
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 124px;
+            height: 124px;
+            margin-bottom: 12px;
+            transform: translateZ(40px);
+            perspective: 900px;
+            cursor: pointer;
+        }
+        .avatar-flipper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        /* Tự lật khi hover hoặc khi JS kích hoạt class .flipped */
+        .avatar-wrapper:hover .avatar-flipper,
+        .avatar-wrapper.flipped .avatar-flipper {
+            transform: rotateY(180deg);
+        }
+        .avatar-face {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             border: 3px solid #00ff41;
             box-shadow: 0 0 22px rgba(0, 255, 65, 0.45);
         }
-        body.light-theme .profile-img { border-color: #059669; box-shadow: 0 0 18px rgba(5, 150, 105, 0.3); }
+        body.light-theme .avatar-face {
+            border-color: #059669;
+            box-shadow: 0 0 18px rgba(5, 150, 105, 0.3);
+        }
+        .avatar-back {
+            transform: rotateY(180deg);
+            background: #08120c;
+        }
         .status-dot {
             position: absolute; bottom: 8px; right: 8px; width: 16px; height: 16px;
             background: #00ff41; border: 2px solid #0a140e; border-radius: 50%;
-            box-shadow: 0 0 10px #00ff41;
+            box-shadow: 0 0 10px #00ff41; z-index: 5;
         }
         body.light-theme .status-dot { background: #10b981; border-color: #fff; }
 
@@ -164,8 +200,12 @@
                 <button class="icon-btn" onclick="toggleTheme()" title="Switch Theme"><i class="fas fa-palette"></i></button>
             </div>
 
-            <div class="avatar-wrapper">
-                <img src="anh.jpg" alt="Nguyễn Trung Thành" class="profile-img" onerror="this.src='https://ui-avatars.com/api/?name=Trung+Thanh&background=0a140e&color=00ff41&size=140'">
+            <!-- Avatar 2 mặt tự lật: Mặt trước (anh.jpg) / Mặt sau (logo.jpg) -->
+            <div class="avatar-wrapper" id="avatar-flip-box" onclick="manualFlipAvatar()" title="Chạm hoặc di chuột để lật Logo">
+                <div class="avatar-flipper">
+                    <img src="anh.jpg" alt="Nguyễn Trung Thành" class="avatar-face avatar-front" onerror="this.src='https://ui-avatars.com/api/?name=Trung+Thanh&background=0a140e&color=00ff41&size=140'">
+                    <img src="logo.jpg" alt="ThanhDev Hub Logo" class="avatar-face avatar-back" onerror="this.src='https://ui-avatars.com/api/?name=ThanhDev+Hub&background=0a140e&color=00ff41&size=140'">
+                </div>
                 <span class="status-dot" title="Online"></span>
             </div>
 
@@ -224,7 +264,7 @@
                 <a href="https://github.com/Nguyentrungthanhctut" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
 
-            <div class="copyright" id="copyright">&copy; 2026 Crafted by Nguyễn Trung Thành.</div>
+            <div class="copyright" id="copyright">&copy; 2026 Crafted by Nguyễn Trung Thành • ThanhDev Hub.</div>
         </div>
     </div>
 
@@ -265,6 +305,27 @@
     <div id="toast">Đã copy thành công!</div>
 
     <script>
+        /* ================= 0. TỰ ĐỘNG LẬT AVATAR & LOGO.JPG ================= */
+        const avatarFlipBox = document.getElementById('avatar-flip-box');
+        let autoFlipTimer;
+
+        function startAutoFlip() {
+            autoFlipTimer = setInterval(() => {
+                avatarFlipBox.classList.toggle('flipped');
+            }, 4000); // Tự động lật qua lại mỗi 4 giây
+        }
+
+        function manualFlipAvatar() {
+            avatarFlipBox.classList.toggle('flipped');
+            clearInterval(autoFlipTimer);
+            startAutoFlip();
+        }
+
+        // Tạm dừng tự lật khi người dùng đang di chuột vào xem
+        avatarFlipBox.addEventListener('mouseenter', () => clearInterval(autoFlipTimer));
+        avatarFlipBox.addEventListener('mouseleave', () => startAutoFlip());
+        startAutoFlip();
+
         /* ================= 1. NỀN MATRIX (TỐI ƯU FPS & RESIZE) ================= */
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
