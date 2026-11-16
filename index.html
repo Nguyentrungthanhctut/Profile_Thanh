@@ -44,7 +44,6 @@
                 grid-template-columns: 1fr;
                 max-width: 520px;
             }
-            /* Đưa thẻ Profile chính lên đầu trên màn hình nhỏ */
             #center-column { order: -1; }
         }
 
@@ -108,34 +107,9 @@
         body.light-theme .mini-btn:hover { background: #059669; color: #fff; }
 
         /* ================= LEFT COLUMN WIDGETS ================= */
-        /* 1. Web Projects Hub */
-        .hub-banner-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: linear-gradient(90deg, rgba(0, 255, 65, 0.18), rgba(0, 176, 155, 0.18));
-            border: 1px solid rgba(0, 255, 65, 0.45);
-            padding: 10px 12px;
-            border-radius: 12px;
-            color: inherit;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            transition: 0.3s;
-        }
-        .hub-banner-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 255, 65, 0.25);
-            background: rgba(0, 255, 65, 0.28);
-        }
-        body.light-theme .hub-banner-link {
-            background: rgba(5, 150, 105, 0.12);
-            border-color: rgba(5, 150, 105, 0.45);
-        }
-
+        /* 1. Live Web Showcase (GitHub Pages) */
         .web-list {
-            max-height: 225px;
+            max-height: 230px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -143,22 +117,26 @@
             padding-right: 3px;
         }
         .web-card {
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(0, 255, 65, 0.2);
+            background: rgba(0, 0, 0, 0.38);
+            border: 1px solid rgba(0, 255, 65, 0.22);
             border-radius: 12px;
-            padding: 10px;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
             transition: 0.25s;
         }
-        body.light-theme .web-card { background: rgba(240, 253, 244, 0.7); border-color: rgba(5, 150, 105, 0.2); }
-        .web-card:hover { border-color: #00ff41; transform: translateX(2px); }
+        body.light-theme .web-card { background: rgba(240, 253, 244, 0.75); border-color: rgba(5, 150, 105, 0.22); }
+        .web-card:hover { border-color: #00ff41; transform: translateX(3px); }
         body.light-theme .web-card:hover { border-color: #059669; }
-        .web-card-title { font-size: 0.84rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        .web-card-desc { font-size: 0.74rem; opacity: 0.78; margin: 4px 0 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .web-card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .web-card-info { min-width: 0; flex: 1; }
+        .web-card-title { font-size: 0.83rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .web-card-url { font-size: 0.7rem; opacity: 0.72; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
         /* 2. Interactive Terminal CLI */
         .terminal-box {
-            background: rgba(2, 8, 4, 0.9);
+            background: rgba(2, 8, 4, 0.92);
             border: 1px solid rgba(0, 255, 65, 0.35);
             border-radius: 12px;
             padding: 10px;
@@ -171,7 +149,7 @@
             color: #34d399;
         }
         .terminal-output {
-            height: 135px;
+            height: 130px;
             overflow-y: auto;
             line-height: 1.45;
             margin-bottom: 8px;
@@ -213,23 +191,24 @@
         }
         .cli-chip:hover { background: #00ff41; color: #000; }
 
-        /* 3. Tech Stack & Progress */
-        .skill-item { margin-bottom: 10px; }
-        .skill-label { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; }
-        .skill-track { width: 100%; height: 7px; background: rgba(128, 128, 128, 0.25); border-radius: 10px; overflow: hidden; }
-        .skill-fill { height: 100%; background: linear-gradient(90deg, #00b09b, #00ff41); border-radius: 10px; }
-        body.light-theme .skill-fill { background: linear-gradient(90deg, #059669, #10b981); }
-        .cert-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .cert-tag {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 8px;
-            background: rgba(0, 255, 65, 0.1);
-            border: 1px solid rgba(0, 255, 65, 0.25);
+        /* 3. Dev Utilities (Password & Base64 Tool) */
+        .dev-tool-group { display: flex; flex-direction: column; gap: 8px; }
+        .dev-input-row { display: flex; gap: 6px; }
+        .dev-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 65, 0.28);
+            border-radius: 10px;
+            padding: 6px 10px;
+            color: inherit;
+            font-family: monospace;
+            font-size: 0.76rem;
+            outline: none;
         }
-        body.light-theme .cert-tag { background: rgba(5, 150, 105, 0.1); border-color: rgba(5, 150, 105, 0.25); }
+        body.light-theme .dev-input { background: rgba(255, 255, 255, 0.85); border-color: rgba(5, 150, 105, 0.3); }
+        .dev-btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
 
-        /* 4. System Status */
+        /* 4. System Monitor */
         .sys-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -243,7 +222,7 @@
             padding: 8px 4px;
         }
         body.light-theme .sys-box { background: rgba(240, 253, 244, 0.7); border-color: rgba(5, 150, 105, 0.2); }
-        .sys-val { font-size: 0.88rem; font-weight: 800; color: #00ff41; font-family: monospace; }
+        .sys-val { font-size: 0.86rem; font-weight: 800; color: #00ff41; font-family: monospace; }
         body.light-theme .sys-val { color: #059669; }
         .sys-lbl { font-size: 0.68rem; opacity: 0.75; margin-top: 2px; }
 
@@ -408,7 +387,7 @@
         }
         body.light-theme .history-item { background: rgba(240, 253, 244, 0.75); border-left-color: #059669; }
         .history-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
-        .history-top a { color: #00ff41; text-decoration: none; max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .history-top a { color: #00ff41; text-decoration: none; max-width: 185px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         body.light-theme .history-top a { color: #059669; }
         .history-time { font-size: 0.68rem; opacity: 0.7; font-family: monospace; }
 
@@ -468,23 +447,18 @@
     <!-- ================= 3-COLUMN DASHBOARD ================= -->
     <div class="dashboard-grid">
 
-        <!-- ==================== KHUNG TRÁI: WEB HUB, CLI, TECH STACK, SYSTEM ==================== -->
+        <!-- ==================== KHUNG TRÁI: LIVE WEB APPS, CLI, DEV TOOLS, SYSTEM ==================== -->
         <aside class="side-column" id="left-column">
-            <!-- 1. Kho Web & Dự Án GitHub Live -->
+            <!-- 1. Danh Sách Web Đang Chạy Live (GitHub Pages) -->
             <div class="glass-panel">
                 <div class="panel-header">
-                    <span><i class="fas fa-globe"></i> Kho Web & Dự Án</span>
-                    <button class="mini-btn" onclick="loadLiveWebProjects()" title="Đồng bộ GitHub"><i class="fas fa-sync-alt"></i> Sync</button>
+                    <span><i class="fas fa-globe"></i> Live Web Showcase</span>
+                    <button class="mini-btn" onclick="loadLiveWebApps()" title="Cập nhật danh sách web"><i class="fas fa-sync-alt"></i> Sync</button>
                 </div>
 
-                <a href="https://nguyentrungthanhctut.github.io/Respority/" target="_blank" class="hub-banner-link" onclick="recordWebAccess('Trang Tổng Hợp Respority', 'https://nguyentrungthanhctut.github.io/Respority/')">
-                    <span><i class="fas fa-rocket"></i> Portal: /Respority/</span>
-                    <i class="fas fa-external-link-alt"></i>
-                </a>
-
                 <div class="web-list" id="live-web-list">
-                    <div style="font-size: 0.8rem; opacity: 0.75; text-align: center; padding: 12px;">
-                        <i class="fas fa-spinner fa-spin"></i> Đang đồng bộ danh sách web từ GitHub...
+                    <div style="font-size: 0.78rem; opacity: 0.75; text-align: center; padding: 12px;">
+                        <i class="fas fa-spinner fa-spin"></i> Đang quét các trang web live...
                     </div>
                 </div>
             </div>
@@ -507,50 +481,38 @@
                 </div>
                 <div class="cli-chips">
                     <button class="cli-chip" onclick="runCliCommand('help')">help</button>
-                    <button class="cli-chip" onclick="runCliCommand('skills')">skills</button>
-                    <button class="cli-chip" onclick="runCliCommand('projects')">projects</button>
+                    <button class="cli-chip" onclick="runCliCommand('web')">web</button>
                     <button class="cli-chip" onclick="runCliCommand('contact')">contact</button>
                     <button class="cli-chip" onclick="runCliCommand('matrix')">matrix</button>
+                    <button class="cli-chip" onclick="runCliCommand('theme')">theme</button>
                     <button class="cli-chip" onclick="runCliCommand('clear')">clear</button>
                 </div>
             </div>
 
-            <!-- 3. Tech Stack & Tiến Độ Học Tập -->
+            <!-- 3. Dev Utilities (Công Cụ Lập Trình Nhanh) -->
             <div class="glass-panel">
                 <div class="panel-header">
-                    <span><i class="fas fa-layer-group"></i> Tech Stack & Học Tập</span>
-                    <span style="font-size: 0.7rem; opacity: 0.75;">CTUT CS</span>
+                    <span><i class="fas fa-tools"></i> Dev Utilities</span>
+                    <span style="font-size: 0.7rem; opacity: 0.75;">Quick Tools</span>
                 </div>
-
-                <div class="skill-item">
-                    <div class="skill-label"><span>HTML5 / CSS3 / JavaScript</span><span>90%</span></div>
-                    <div class="skill-track"><div class="skill-fill" style="width: 90%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-label"><span>Python / AI & Data Science</span><span>78%</span></div>
-                    <div class="skill-track"><div class="skill-fill" style="width: 78%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-label"><span>C / C++ & Giải Thuật</span><span>82%</span></div>
-                    <div class="skill-track"><div class="skill-fill" style="width: 82%;"></div></div>
-                </div>
-                <div class="skill-item" style="margin-bottom: 4px;">
-                    <div class="skill-label"><span>Git / GitHub & Cursor AI</span><span>88%</span></div>
-                    <div class="skill-track"><div class="skill-fill" style="width: 88%;"></div></div>
-                </div>
-
-                <div class="cert-badges">
-                    <span class="cert-tag"><i class="fas fa-brain"></i> GCI World AI</span>
-                    <span class="cert-tag"><i class="fas fa-code"></i> Fullstack Web</span>
-                    <span class="cert-tag"><i class="fas fa-language"></i> VSTEP B1/B2</span>
+                <div class="dev-tool-group">
+                    <div class="dev-input-row">
+                        <input type="text" id="dev-tool-input" class="dev-input" placeholder="Nhập chuỗi hoặc tạo mật khẩu..." readonly>
+                        <button class="mini-btn" onclick="copyDevOutput()" title="Copy kết quả"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <div class="dev-btn-row">
+                        <button class="mini-btn" onclick="genStrongPass()"><i class="fas fa-key"></i> Pass 16 ký tự</button>
+                        <button class="mini-btn" onclick="genUUID()"><i class="fas fa-fingerprint"></i> UUID v4</button>
+                        <button class="mini-btn" onclick="genTimestamp()"><i class="fas fa-clock"></i> Unix Time</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- 4. Trạng Thái Hệ Thống -->
+            <!-- 4. System Monitor -->
             <div class="glass-panel">
                 <div class="panel-header">
-                    <span><i class="fas fa-microchip"></i> System Status</span>
-                    <span style="font-size: 0.7rem; color: #00ff41;">● ONLINE</span>
+                    <span><i class="fas fa-microchip"></i> System Monitor</span>
+                    <span style="font-size: 0.7rem; color: #00ff41;">● ACTIVE</span>
                 </div>
                 <div class="sys-grid">
                     <div class="sys-box">
@@ -558,18 +520,18 @@
                         <div class="sys-lbl">Matrix Engine</div>
                     </div>
                     <div class="sys-box">
-                        <div class="sys-val" id="sys-device">Desktop</div>
-                        <div class="sys-lbl" id="sys-browser">Browser</div>
+                        <div class="sys-val" id="sys-uptime">00:00</div>
+                        <div class="sys-lbl">Session Time</div>
                     </div>
                     <div class="sys-box">
-                        <div class="sys-val" id="sys-visits">1</div>
-                        <div class="sys-lbl">Lượt truy cập</div>
+                        <div class="sys-val" id="sys-device">Desktop</div>
+                        <div class="sys-lbl" id="sys-browser">Browser</div>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <!-- ==================== KHUNG GIỮA: PROFILE CARD 3D ==================== -->
+        <!-- ==================== KHUNG GIỮA: PROFILE CARD 3D (GIỮ NGUYÊN) ==================== -->
         <main id="center-column">
             <div class="card-container" id="tilt-container">
                 <div class="profile-card" id="profile-card">
@@ -835,7 +797,7 @@
         let lang = 'vi';
         const i18n = {
             vi: {
-                roles: ["> Sinh viên Khoa học Máy tính - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Data Science Enthusiast_"],
+                roles: ["> Sinh viên Khoa học Máy tính - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Crypto Enthusiast_"],
                 location: "Cần Thơ, VN",
                 docBtn: "Tài Liệu Đen",
                 gitBtn: "Dự Án GitHub",
@@ -846,7 +808,7 @@
                 toastCopy: "Đã copy vào bộ nhớ tạm!"
             },
             en: {
-                roles: ["> Computer Science Student - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Data Science Enthusiast_"],
+                roles: ["> Computer Science Student - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Crypto Enthusiast_"],
                 location: "Can Tho, VN",
                 docBtn: "Black Docs",
                 gitBtn: "GitHub Repos",
@@ -903,60 +865,58 @@
         }
         fetchWeather();
 
-        /* ================= 5. KHO WEB LIVE SYNC & GITHUB API ================= */
-        let cachedRepos = [];
+        /* ================= 5. LIVE WEB SHOWCASE (GITHUB PAGES) ================= */
+        let liveWebApps = [];
 
-        async function loadLiveWebProjects() {
+        async function loadLiveWebApps() {
             const container = document.getElementById('live-web-list');
-            container.innerHTML = `<div style="font-size:0.78rem; text-align:center; padding:10px;"><i class="fas fa-spinner fa-spin"></i> Đang cập nhật từ GitHub...</div>`;
+            container.innerHTML = `<div style="font-size:0.78rem; text-align:center; padding:10px;"><i class="fas fa-spinner fa-spin"></i> Đang quét các trang web live...</div>`;
             try {
                 const res = await fetch('https://api.github.com/users/Nguyentrungthanhctut/repos?sort=updated&per_page=30');
                 const repos = await res.json();
-                cachedRepos = Array.isArray(repos) ? repos : [];
+                const list = Array.isArray(repos) ? repos : [];
 
-                if (cachedRepos.length === 0) {
-                    container.innerHTML = `<div style="font-size:0.78rem; opacity:0.75;">Chưa tìm thấy repository công khai.</div>`;
+                // Lọc các repo có bật GitHub Pages hoặc trang web chính
+                liveWebApps = list
+                    .filter(r => r.has_pages || (r.homepage && r.homepage.startsWith('http')))
+                    .map(r => {
+                        const url = (r.homepage && r.homepage.startsWith('http'))
+                            ? r.homepage
+                            : (r.name.toLowerCase() === 'nguyentrungthanhctut.github.io'
+                                ? 'https://nguyentrungthanhctut.github.io/'
+                                : `https://nguyentrungthanhctut.github.io/${r.name}/`);
+                        return { name: r.name, url };
+                    });
+
+                if (liveWebApps.length === 0) {
+                    container.innerHTML = `<div style="font-size:0.78rem; opacity:0.75; text-align:center; padding:8px;">Chưa có trang GitHub Pages nào được kích hoạt.</div>`;
                     return;
                 }
 
-                container.innerHTML = cachedRepos.map(repo => {
-                    const liveUrl = repo.homepage && repo.homepage.startsWith('http')
-                        ? repo.homepage
-                        : (repo.name.toLowerCase() === 'nguyentrungthanhctut.github.io'
-                            ? 'https://nguyentrungthanhctut.github.io/'
-                            : `https://nguyentrungthanhctut.github.io/${repo.name}/`);
-                    const updatedDate = new Date(repo.updated_at).toLocaleDateString('vi-VN');
-
-                    return `
-                        <div class="web-card">
-                            <div class="web-card-title">
-                                <span><i class="fas fa-folder-open" style="color:#00ff41;"></i> ${repo.name}</span>
-                                <span style="font-size:0.68rem; opacity:0.7;">${updatedDate}</span>
-                            </div>
-                            <div class="web-card-desc">${repo.description || 'Dự án web / mã nguồn trên GitHub ThanhDev Hub.'}</div>
-                            <div class="web-card-actions">
-                                <a href="${liveUrl}" target="_blank" class="mini-btn" onclick="recordWebAccess('${repo.name} (Web)', '${liveUrl}')">
-                                    <i class="fas fa-play"></i> Mở Web
-                                </a>
-                                <a href="${repo.html_url}" target="_blank" class="mini-btn" onclick="recordWebAccess('${repo.name} (Code)', '${repo.html_url}')">
-                                    <i class="fab fa-github"></i> Source
-                                </a>
-                            </div>
+                container.innerHTML = liveWebApps.map(app => `
+                    <div class="web-card">
+                        <div class="web-card-info">
+                            <div class="web-card-title"><i class="fas fa-rocket" style="color:#00ff41;"></i> ${app.name}</div>
+                            <div class="web-card-url">${app.url.replace('https://', '')}</div>
                         </div>
-                    `;
-                }).join('');
+                        <a href="${app.url}" target="_blank" class="mini-btn" onclick="recordWebAccess('${app.name}', '${app.url}')">
+                            Truy cập <i class="fas fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                `).join('');
             } catch (e) {
-                container.innerHTML = `<div style="font-size:0.78rem; color:#f87171;">Không thể kết nối GitHub API lúc này.</div>`;
+                container.innerHTML = `<div style="font-size:0.78rem; color:#f87171;">Lỗi đồng bộ danh sách Web.</div>`;
             }
         }
-        loadLiveWebProjects();
+        loadLiveWebApps();
 
+        // Modal GitHub ở thẻ giữa (Giữ nguyên)
         async function fetchGitHubRepos() {
             openModal('gitModal');
             const list = document.getElementById('repo-list');
             list.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Loading...";
             try {
-                const res = await fetch('https://api.github.com/users/Nguyentrungthanhctut/repos?sort=updated&per_page=8');
+                const res = await fetch('https://api.github.com/users/Nguyentrungthanhctut/repos?sort=updated&per_page=5');
                 const repos = await res.json();
                 list.innerHTML = "";
                 if (!Array.isArray(repos) || repos.length === 0) {
@@ -964,14 +924,12 @@
                     return;
                 }
                 repos.forEach(repo => {
-                    const liveUrl = `https://nguyentrungthanhctut.github.io/${repo.name}/`;
                     list.innerHTML += `<div class="repo-item">
                         <a href="${repo.html_url}" target="_blank" onclick="recordWebAccess('${repo.name}', '${repo.html_url}')"><i class="fas fa-book"></i> ${repo.name}</a>
                         <p>${repo.description || 'No description provided.'}</p>
                         <p style="font-size:0.75rem; margin-top:8px;">
                             ${repo.language ? `<span class="badge-lang">${repo.language}</span>` : ''}
                             ⭐ ${repo.stargazers_count} &nbsp;|&nbsp; 🍴 ${repo.forks_count}
-                            &nbsp;|&nbsp; <a href="${liveUrl}" target="_blank" style="font-size:0.75rem;" onclick="recordWebAccess('${repo.name} (Live)', '${liveUrl}')">🌐 Live Demo</a>
                         </p>
                     </div>`;
                 });
@@ -1003,36 +961,65 @@
 
             switch (cmd) {
                 case 'help':
-                    printCli(`Các lệnh hỗ trợ: <b>help</b>, <b>skills</b>, <b>projects</b>, <b>contact</b>, <b>matrix</b>, <b>clear</b>`);
+                    printCli(`Lệnh hỗ trợ: <b>help</b>, <b>web</b>, <b>contact</b>, <b>matrix</b>, <b>theme</b>, <b>clear</b>`);
                     break;
-                case 'skills':
-                    printCli(`• Frontend: HTML5, CSS3, Tailwind, Vanilla JS<br>• Languages: Python, C/C++<br>• Focus: AI / Data Science (GCI World), Web Dev`);
-                    break;
-                case 'projects':
-                    if (cachedRepos.length > 0) {
-                        const names = cachedRepos.slice(0, 6).map(r => r.name).join(', ');
-                        printCli(`Repos mới nhất (${cachedRepos.length}): <b>${names}</b><br>Portal: <a href="https://nguyentrungthanhctut.github.io/Respority/" target="_blank" style="color:#00ff41;">/Respority/</a>`);
+                case 'web':
+                    if (liveWebApps.length > 0) {
+                        const list = liveWebApps.map(w => `<a href="${w.url}" target="_blank" style="color:#00ff41;">${w.name}</a>`).join(' • ');
+                        printCli(`Web đang hoạt động (${liveWebApps.length}): ${list}`);
                     } else {
-                        printCli(`Đang tải danh sách repo... thử lại sau vài giây.`);
+                        printCli(`Đang tải danh sách web live...`);
                     }
                     break;
                 case 'contact':
-                    printCli(`• Name: Nguyễn Trung Thành (ThanhDev Hub)<br>• Univ: CTUT - Cần Thơ, VN<br>• GitHub: github.com/Nguyentrungthanhctut<br>• IG/Threads: @thanhokiidol888`);
+                    printCli(`• Dev: Nguyễn Trung Thành (ThanhDev Hub)<br>• Univ: CTUT - Cần Thơ, VN<br>• GitHub: github.com/Nguyentrungthanhctut<br>• Social: @thanhokiidol888`);
                     break;
                 case 'matrix':
                     matrixPaused = !matrixPaused;
                     printCli(`Matrix rain: <b>${matrixPaused ? 'PAUSED (Tạm dừng)' : 'RUNNING (Đang chạy)'}</b>`);
                     break;
+                case 'theme':
+                    toggleTheme();
+                    printCli(`Đã chuyển giao diện: <b>${document.body.classList.contains('light-theme') ? 'Light Mode' : 'Dark Matrix'}</b>`);
+                    break;
                 case 'clear':
                     cliOutput.innerHTML = '';
                     break;
                 default:
-                    printCli(`Lệnh không hợp lệ: <i>${rawCmd}</i>. Gõ <b>help</b> để xem danh sách lệnh.`);
+                    printCli(`Lệnh không hợp lệ: <i>${rawCmd}</i>. Gõ <b>help</b> để xem danh sách.`);
             }
         }
 
-        /* ================= 7. SYSTEM STATUS (DEVICE, BROWSER, VISITS) ================= */
-        function initSystemStatus() {
+        /* ================= 7. DEV UTILITIES & SYSTEM MONITOR ================= */
+        const devToolInput = document.getElementById('dev-tool-input');
+
+        function genStrongPass() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
+            let pass = "";
+            for (let i = 0; i < 16; i++) pass += chars[Math.floor(Math.random() * chars.length)];
+            devToolInput.value = pass;
+        }
+
+        function genUUID() {
+            devToolInput.value = crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+                const r = Math.random() * 16 | 0;
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        }
+
+        function genTimestamp() {
+            devToolInput.value = Math.floor(Date.now() / 1000).toString();
+        }
+
+        function copyDevOutput() {
+            if (!devToolInput.value) genStrongPass();
+            navigator.clipboard.writeText(devToolInput.value);
+            showToast("Đã copy: " + devToolInput.value);
+        }
+        genStrongPass(); // Khởi tạo sẵn 1 mật khẩu
+
+        // System Monitor (Device, Browser, Uptime)
+        function initSystemMonitor() {
             const ua = navigator.userAgent;
             const isMobile = /Mobi|Android|iPhone/i.test(ua);
             document.getElementById('sys-device').innerText = isMobile ? 'Mobile' : 'Desktop';
@@ -1044,11 +1031,15 @@
             else if (ua.includes('Safari')) browser = 'Safari';
             document.getElementById('sys-browser').innerText = browser;
 
-            let visits = parseInt(localStorage.getItem('thanhdev_visit_count') || '0', 10) + 1;
-            localStorage.setItem('thanhdev_visit_count', visits.toString());
-            document.getElementById('sys-visits').innerText = visits;
+            let sessionSec = 0;
+            setInterval(() => {
+                sessionSec++;
+                const m = String(Math.floor(sessionSec / 60)).padStart(2, '0');
+                const s = String(sessionSec % 60).padStart(2, '0');
+                document.getElementById('sys-uptime').innerText = `${m}:${s}`;
+            }, 1000);
         }
-        initSystemStatus();
+        initSystemMonitor();
 
         /* ================= 8. WEB AUDIO API & TRÌNH PHÁT NHẠC PRO ================= */
         const playlist = ["nhac.mp3", "nhac2.mp3", "nhac3.mp3", "nhac4.mp3", "nhac5.mp3", "nhac6.mp3"];
@@ -1174,7 +1165,6 @@
             loadTrack((currentTrack - 1 + playlist.length) % playlist.length);
         }
 
-        // Phím tắt Space (tránh kích hoạt khi đang gõ ở Terminal hoặc Ghi chú)
         document.addEventListener('keydown', (e) => {
             const tag = document.activeElement.tagName;
             if (e.code === 'Space' && tag !== 'BUTTON' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
@@ -1214,7 +1204,6 @@
                 pomoInterval = null;
                 btn.innerHTML = '<i class="fas fa-play"></i> Tiếp tục';
             } else {
-                // Tự động bật nhạc nền trên thẻ giữa khi bắt đầu phiên học
                 if (pomoMode === 'focus') {
                     playMusicDirect();
                 }
@@ -1277,7 +1266,6 @@
             showToast("Đã xóa lịch sử truy cập!");
         }
 
-        // Tự động ghi nhận lần truy cập trang hiện tại
         recordWebAccess('ThanhDev Hub Dashboard', window.location.href);
 
         /* ================= 11. LỊCH THÁNG MINI ================= */
@@ -1291,8 +1279,8 @@
             const month = calDate.getMonth();
             document.getElementById('cal-month-year').innerText = `Tháng ${month + 1}, ${year}`;
 
-            const firstDay = new Date(year, month, 1).getDay(); // 0 = CN
-            const startOffset = firstDay === 0 ? 6 : firstDay - 1; // Bắt đầu từ Thứ 2
+            const firstDay = new Date(year, month, 1).getDay();
+            const startOffset = firstDay === 0 ? 6 : firstDay - 1;
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
             const dayNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
