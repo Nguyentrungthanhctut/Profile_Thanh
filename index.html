@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile | Nguyễn Trung Thành - ThanhDev Hub</title>
-    <!-- Favicon Logo -->
+    <title>Dashboard | Nguyễn Trung Thành - ThanhDev Hub</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,9 +11,9 @@
 
         body {
             background: #000000; color: #ffffff;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; justify-content: center; align-items: flex-start;
             min-height: 100vh; overflow-x: hidden; position: relative;
-            padding: 20px 0;
+            padding: 24px 16px;
             transition: background 0.5s ease, color 0.5s ease;
         }
         body.light-theme { background: #f0fdf4; color: #1e293b; }
@@ -22,13 +21,239 @@
         /* Nền Matrix */
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-        /* ================= 3D TILT PROFILE CARD ================= */
-        .card-container { perspective: 1000px; z-index: 1; width: 92%; max-width: 480px; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 255, 65, 0.4); border-radius: 10px; }
+        body.light-theme ::-webkit-scrollbar-thumb { background: rgba(5, 150, 105, 0.4); }
+
+        /* ================= 3-COLUMN DASHBOARD LAYOUT ================= */
+        .dashboard-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 350px minmax(380px, 460px) 350px;
+            gap: 20px;
+            width: 100%;
+            max-width: 1260px;
+            align-items: start;
+        }
+
+        @media (max-width: 1180px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+            }
+            /* Đưa thẻ Profile chính lên đầu trên màn hình nhỏ */
+            #center-column { order: -1; }
+        }
+
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Glass Panel dùng chung cho 2 cột bên */
+        .glass-panel {
+            background: rgba(8, 18, 12, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 255, 65, 0.32);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 255, 65, 0.1);
+            transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+        }
+        body.light-theme .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(5, 150, 105, 0.32);
+            box-shadow: 0 12px 28px rgba(5, 150, 105, 0.12);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #00ff41;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.22);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+        body.light-theme .panel-header {
+            color: #059669;
+            border-bottom-color: rgba(5, 150, 105, 0.22);
+        }
+
+        .mini-btn {
+            background: rgba(0, 255, 65, 0.12);
+            border: 1px solid rgba(0, 255, 65, 0.35);
+            color: inherit;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .mini-btn:hover { background: #00ff41; color: #000; }
+        body.light-theme .mini-btn { background: rgba(5, 150, 105, 0.12); border-color: rgba(5, 150, 105, 0.35); }
+        body.light-theme .mini-btn:hover { background: #059669; color: #fff; }
+
+        /* ================= LEFT COLUMN WIDGETS ================= */
+        /* 1. Web Projects Hub */
+        .hub-banner-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, rgba(0, 255, 65, 0.18), rgba(0, 176, 155, 0.18));
+            border: 1px solid rgba(0, 255, 65, 0.45);
+            padding: 10px 12px;
+            border-radius: 12px;
+            color: inherit;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+        .hub-banner-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 65, 0.25);
+            background: rgba(0, 255, 65, 0.28);
+        }
+        body.light-theme .hub-banner-link {
+            background: rgba(5, 150, 105, 0.12);
+            border-color: rgba(5, 150, 105, 0.45);
+        }
+
+        .web-list {
+            max-height: 225px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 3px;
+        }
+        .web-card {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 12px;
+            padding: 10px;
+            transition: 0.25s;
+        }
+        body.light-theme .web-card { background: rgba(240, 253, 244, 0.7); border-color: rgba(5, 150, 105, 0.2); }
+        .web-card:hover { border-color: #00ff41; transform: translateX(2px); }
+        body.light-theme .web-card:hover { border-color: #059669; }
+        .web-card-title { font-size: 0.84rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .web-card-desc { font-size: 0.74rem; opacity: 0.78; margin: 4px 0 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .web-card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        /* 2. Interactive Terminal CLI */
+        .terminal-box {
+            background: rgba(2, 8, 4, 0.9);
+            border: 1px solid rgba(0, 255, 65, 0.35);
+            border-radius: 12px;
+            padding: 10px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.78rem;
+            color: #00ff41;
+        }
+        body.light-theme .terminal-box {
+            background: #0f172a;
+            color: #34d399;
+        }
+        .terminal-output {
+            height: 135px;
+            overflow-y: auto;
+            line-height: 1.45;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+        .terminal-output div { margin-bottom: 4px; }
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-top: 1px solid rgba(0, 255, 65, 0.2);
+            padding-top: 6px;
+        }
+        .terminal-input-row span { font-weight: bold; }
+        #cli-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-family: 'Consolas', monospace;
+            font-size: 0.78rem;
+        }
+        .cli-chips {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .cli-chip {
+            background: rgba(0, 255, 65, 0.12);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: #00ff41;
+            font-family: monospace;
+            font-size: 0.7rem;
+            padding: 2px 7px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .cli-chip:hover { background: #00ff41; color: #000; }
+
+        /* 3. Tech Stack & Progress */
+        .skill-item { margin-bottom: 10px; }
+        .skill-label { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; }
+        .skill-track { width: 100%; height: 7px; background: rgba(128, 128, 128, 0.25); border-radius: 10px; overflow: hidden; }
+        .skill-fill { height: 100%; background: linear-gradient(90deg, #00b09b, #00ff41); border-radius: 10px; }
+        body.light-theme .skill-fill { background: linear-gradient(90deg, #059669, #10b981); }
+        .cert-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .cert-tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 8px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.25);
+        }
+        body.light-theme .cert-tag { background: rgba(5, 150, 105, 0.1); border-color: rgba(5, 150, 105, 0.25); }
+
+        /* 4. System Status */
+        .sys-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            text-align: center;
+        }
+        .sys-box {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 12px;
+            padding: 8px 4px;
+        }
+        body.light-theme .sys-box { background: rgba(240, 253, 244, 0.7); border-color: rgba(5, 150, 105, 0.2); }
+        .sys-val { font-size: 0.88rem; font-weight: 800; color: #00ff41; font-family: monospace; }
+        body.light-theme .sys-val { color: #059669; }
+        .sys-lbl { font-size: 0.68rem; opacity: 0.75; margin-top: 2px; }
+
+        /* ================= CENTER COLUMN: 3D TILT PROFILE CARD ================= */
+        .card-container { perspective: 1000px; width: 100%; }
         .profile-card {
             background: rgba(8, 18, 12, 0.78);
             backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(0, 255, 65, 0.35);
-            border-radius: 24px; padding: 45px 30px 30px; width: 100%;
+            border-radius: 24px; padding: 45px 26px 28px; width: 100%;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 255, 65, 0.15);
             transform-style: preserve-3d;
@@ -36,11 +261,10 @@
             position: relative;
         }
         body.light-theme .profile-card {
-            background: rgba(255, 255, 255, 0.82); border-color: rgba(5, 150, 105, 0.35);
+            background: rgba(255, 255, 255, 0.85); border-color: rgba(5, 150, 105, 0.35);
             box-shadow: 0 15px 35px rgba(5, 150, 105, 0.15);
         }
 
-        /* Nút Công Cụ (Góc trái/phải) */
         .tools-left { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; transform: translateZ(20px); }
         .tools-right { position: absolute; top: 18px; right: 18px; display: flex; gap: 8px; transform: translateZ(20px); }
         .icon-btn {
@@ -53,48 +277,23 @@
         .icon-btn:hover { background: rgba(0, 255, 65, 0.4); transform: scale(1.1); color: #fff; }
         body.light-theme .icon-btn:hover { background: #059669; color: #fff; }
 
-        /* ================= 3D FLIP AVATAR & LOGO.JPG ================= */
+        /* 3D Flip Avatar */
         .avatar-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 124px;
-            height: 124px;
-            margin-bottom: 12px;
-            transform: translateZ(40px);
-            perspective: 900px;
-            cursor: pointer;
+            position: relative; display: inline-block; width: 120px; height: 120px;
+            margin-bottom: 12px; transform: translateZ(40px); perspective: 900px; cursor: pointer;
         }
         .avatar-flipper {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
+            width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
             transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        /* Tự lật khi hover hoặc khi JS kích hoạt class .flipped */
-        .avatar-wrapper:hover .avatar-flipper,
-        .avatar-wrapper.flipped .avatar-flipper {
-            transform: rotateY(180deg);
-        }
+        .avatar-wrapper:hover .avatar-flipper, .avatar-wrapper.flipped .avatar-flipper { transform: rotateY(180deg); }
         .avatar-face {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border: 3px solid #00ff41;
-            box-shadow: 0 0 22px rgba(0, 255, 65, 0.45);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+            object-fit: cover; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border: 3px solid #00ff41; box-shadow: 0 0 22px rgba(0, 255, 65, 0.45);
         }
-        body.light-theme .avatar-face {
-            border-color: #059669;
-            box-shadow: 0 0 18px rgba(5, 150, 105, 0.3);
-        }
-        .avatar-back {
-            transform: rotateY(180deg);
-            background: #08120c;
-        }
+        body.light-theme .avatar-face { border-color: #059669; box-shadow: 0 0 18px rgba(5, 150, 105, 0.3); }
+        .avatar-back { transform: rotateY(180deg); background: #08120c; }
         .status-dot {
             position: absolute; bottom: 8px; right: 8px; width: 16px; height: 16px;
             background: #00ff41; border: 2px solid #0a140e; border-radius: 50%;
@@ -102,33 +301,30 @@
         }
         body.light-theme .status-dot { background: #10b981; border-color: #fff; }
 
-        .name { font-size: 1.7rem; font-weight: 700; margin-bottom: 5px; transform: translateZ(30px); }
-        .bio { font-size: 0.95rem; color: #00ff41; margin-bottom: 15px; font-family: monospace; min-height: 22px; transform: translateZ(30px); }
+        .name { font-size: 1.65rem; font-weight: 700; margin-bottom: 5px; transform: translateZ(30px); }
+        .bio { font-size: 0.92rem; color: #00ff41; margin-bottom: 15px; font-family: monospace; min-height: 22px; transform: translateZ(30px); }
         body.light-theme .bio { color: #059669; font-weight: 600; }
 
-        /* Row Thông tin: Thời tiết, Đồng hồ, Vị trí */
         .info-row {
             display: flex; justify-content: center; align-items: center; gap: 10px;
-            font-size: 0.82rem; opacity: 0.92; margin-bottom: 18px;
+            font-size: 0.8rem; opacity: 0.92; margin-bottom: 18px;
             background: rgba(0, 255, 65, 0.08); border: 1px solid rgba(0, 255, 65, 0.2);
-            padding: 8px 14px; border-radius: 20px; flex-wrap: wrap;
-            transform: translateZ(25px);
+            padding: 8px 12px; border-radius: 20px; flex-wrap: wrap; transform: translateZ(25px);
         }
         body.light-theme .info-row { background: rgba(5, 150, 105, 0.08); border-color: rgba(5, 150, 105, 0.2); }
         .info-row i { color: #00ff41; }
         body.light-theme .info-row i { color: #059669; }
 
-        /* ================= ADVANCED MUSIC PLAYER ================= */
+        /* Advanced Music Player */
         .music-player-box {
             background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(0, 255, 65, 0.25);
             border-radius: 18px; padding: 14px; margin-bottom: 18px; transform: translateZ(30px);
         }
-        body.light-theme .music-player-box { background: rgba(255, 255, 255, 0.6); border-color: rgba(5, 150, 105, 0.25); }
+        body.light-theme .music-player-box { background: rgba(255, 255, 255, 0.65); border-color: rgba(5, 150, 105, 0.25); }
 
         #visualizer { width: 100%; height: 36px; margin-bottom: 8px; border-radius: 8px; display: block; }
         .track-info { font-size: 0.85rem; margin-bottom: 8px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* Thanh Tiến Độ & Âm Lượng */
         .progress-container { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; margin-bottom: 10px; font-family: monospace; }
         input[type=range] { flex: 1; -webkit-appearance: none; background: transparent; height: 6px; cursor: pointer; }
         input[type=range]::-webkit-slider-runnable-track { background: rgba(128,128,128,0.3); border-radius: 10px; height: 5px; }
@@ -148,19 +344,100 @@
         body.light-theme .volume-box i { color: #059669; }
         #volume-bar { max-width: 110px; }
 
-        /* Nút tính năng */
         .btn-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 18px; transform: translateZ(25px); flex-wrap: wrap; }
-        .action-btn { background: rgba(0, 255, 65, 0.1); color: inherit; border: 1px solid rgba(0, 255, 65, 0.3); padding: 9px 16px; border-radius: 30px; font-size: 0.82rem; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
+        .action-btn { background: rgba(0, 255, 65, 0.1); color: inherit; border: 1px solid rgba(0, 255, 65, 0.3); padding: 9px 15px; border-radius: 30px; font-size: 0.82rem; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
         body.light-theme .action-btn { background: rgba(5, 150, 105, 0.1); border-color: rgba(5, 150, 105, 0.3); }
         .action-btn:hover { background: rgba(0, 255, 65, 0.3); transform: translateY(-2px); }
         body.light-theme .action-btn:hover { background: #059669; color: #fff; }
 
         .social-links { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; transform: translateZ(20px); }
-        .social-links a { color: inherit; font-size: 1.25rem; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; background: rgba(0, 255, 65, 0.08); border-radius: 50%; text-decoration: none; transition: 0.3s; border: 1px solid rgba(0, 255, 65, 0.25); }
+        .social-links a { color: inherit; font-size: 1.2rem; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background: rgba(0, 255, 65, 0.08); border-radius: 50%; text-decoration: none; transition: 0.3s; border: 1px solid rgba(0, 255, 65, 0.25); }
         .social-links a:hover { transform: translateY(-4px); background: #00ff41; color: #000; box-shadow: 0 5px 15px rgba(0,255,65,0.4); }
         body.light-theme .social-links a:hover { background: #059669; color: #fff; }
 
-        .copyright { font-size: 0.75rem; opacity: 0.6; }
+        .copyright { font-size: 0.74rem; opacity: 0.65; }
+
+        /* ================= RIGHT COLUMN WIDGETS ================= */
+        /* 1. Pomodoro Timer */
+        .pomo-display {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.38);
+            border: 1px solid rgba(0, 255, 65, 0.25);
+            border-radius: 14px;
+            padding: 12px;
+        }
+        body.light-theme .pomo-display { background: rgba(240, 253, 244, 0.75); border-color: rgba(5, 150, 105, 0.25); }
+        .pomo-mode-tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 8px; }
+        .pomo-tab {
+            background: transparent; border: 1px solid rgba(0, 255, 65, 0.3); color: inherit;
+            padding: 3px 10px; border-radius: 10px; font-size: 0.72rem; cursor: pointer;
+        }
+        .pomo-tab.active { background: #00ff41; color: #000; font-weight: bold; }
+        body.light-theme .pomo-tab.active { background: #059669; color: #fff; border-color: #059669; }
+        .pomo-time {
+            font-size: 2.1rem; font-weight: 800; font-family: monospace; color: #00ff41;
+            letter-spacing: 2px; margin: 4px 0 10px;
+        }
+        body.light-theme .pomo-time { color: #059669; }
+        .pomo-actions { display: flex; justify-content: center; gap: 8px; }
+        .pomo-btn {
+            padding: 6px 14px; border-radius: 18px; border: 1px solid rgba(0, 255, 65, 0.4);
+            background: rgba(0, 255, 65, 0.15); color: inherit; font-weight: bold;
+            font-size: 0.78rem; cursor: pointer; transition: 0.25s;
+        }
+        .pomo-btn.primary { background: linear-gradient(45deg, #00b09b, #00ff41); color: #000; border: none; }
+        .pomo-btn:hover { transform: scale(1.05); }
+
+        /* 2. Access History Log */
+        .history-list {
+            max-height: 165px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.75rem;
+        }
+        .history-item {
+            background: rgba(0, 0, 0, 0.35);
+            border-left: 3px solid #00ff41;
+            padding: 7px 9px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        body.light-theme .history-item { background: rgba(240, 253, 244, 0.75); border-left-color: #059669; }
+        .history-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+        .history-top a { color: #00ff41; text-decoration: none; max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        body.light-theme .history-top a { color: #059669; }
+        .history-time { font-size: 0.68rem; opacity: 0.7; font-family: monospace; }
+
+        /* 3. Mini Calendar */
+        .cal-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: 0.72rem; }
+        .cal-day-name { font-weight: 700; opacity: 0.65; padding-bottom: 3px; }
+        .cal-cell { padding: 5px 0; border-radius: 8px; background: rgba(0, 0, 0, 0.25); }
+        body.light-theme .cal-cell { background: rgba(5, 150, 105, 0.06); }
+        .cal-cell.empty { background: transparent; }
+        .cal-cell.today { background: #00ff41; color: #000; font-weight: 800; box-shadow: 0 0 10px rgba(0, 255, 65, 0.5); }
+        body.light-theme .cal-cell.today { background: #059669; color: #fff; box-shadow: 0 0 8px rgba(5, 150, 105, 0.4); }
+
+        /* 4. Quick Notes */
+        #quick-notes {
+            width: 100%;
+            height: 95px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 65, 0.28);
+            border-radius: 12px;
+            padding: 10px;
+            color: inherit;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            resize: vertical;
+            outline: none;
+        }
+        body.light-theme #quick-notes { background: rgba(255, 255, 255, 0.8); border-color: rgba(5, 150, 105, 0.3); }
+        #quick-notes:focus { border-color: #00ff41; }
 
         /* ================= MODALS & TOAST ================= */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 999; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; padding: 15px; }
@@ -188,84 +465,250 @@
     <!-- Nền Matrix -->
     <canvas id="matrix-canvas"></canvas>
 
-    <!-- Container hiệu ứng Tilt 3D -->
-    <div class="card-container" id="tilt-container">
-        <div class="profile-card" id="profile-card">
-            <div class="tools-left">
-                <button class="icon-btn" onclick="showQR()" title="QR Profile"><i class="fas fa-qrcode"></i></button>
-                <button class="icon-btn" onclick="copyURL()" title="Copy Link"><i class="fas fa-share-alt"></i></button>
-            </div>
-            <div class="tools-right">
-                <button class="icon-btn" id="lang-btn" onclick="toggleLang()" title="Switch Language">EN</button>
-                <button class="icon-btn" onclick="toggleTheme()" title="Switch Theme"><i class="fas fa-palette"></i></button>
-            </div>
+    <!-- ================= 3-COLUMN DASHBOARD ================= -->
+    <div class="dashboard-grid">
 
-            <!-- Avatar 2 mặt tự lật: Mặt trước (anh.jpg) / Mặt sau (logo.jpg) -->
-            <div class="avatar-wrapper" id="avatar-flip-box" onclick="manualFlipAvatar()" title="Chạm hoặc di chuột để lật Logo">
-                <div class="avatar-flipper">
-                    <img src="anh.jpg" alt="Nguyễn Trung Thành" class="avatar-face avatar-front" onerror="this.src='https://ui-avatars.com/api/?name=Trung+Thanh&background=0a140e&color=00ff41&size=140'">
-                    <img src="logo.jpg" alt="ThanhDev Hub Logo" class="avatar-face avatar-back" onerror="this.src='https://ui-avatars.com/api/?name=ThanhDev+Hub&background=0a140e&color=00ff41&size=140'">
-                </div>
-                <span class="status-dot" title="Online"></span>
-            </div>
-
-            <div class="name">Nguyễn Trung Thành</div>
-            <div class="bio" id="typing-text">> </div>
-
-            <!-- Đồng hồ & Thời tiết Real-time -->
-            <div class="info-row">
-                <div><i class="fas fa-map-marker-alt"></i> <span id="location">Cần Thơ, VN</span></div>
-                <span>|</span>
-                <div><i id="weather-icon" class="fas fa-cloud-sun"></i> <span id="weather-temp">--°C</span></div>
-                <span>|</span>
-                <div class="clock-container"><i class="fas fa-clock"></i> <span id="clock">00:00:00</span></div>
-            </div>
-
-            <!-- TRÌNH PHÁT NHẠC NÂNG CAO -->
-            <div class="music-player-box">
-                <div class="track-info">
-                    <span id="track-label">♪ Bài 1/6 — nhac.mp3</span>
-                </div>
-                <canvas id="visualizer"></canvas>
-
-                <div class="progress-container">
-                    <span id="current-time">0:00</span>
-                    <input type="range" id="progress-bar" value="0" min="0" max="100">
-                    <span id="duration">0:00</span>
+        <!-- ==================== KHUNG TRÁI: WEB HUB, CLI, TECH STACK, SYSTEM ==================== -->
+        <aside class="side-column" id="left-column">
+            <!-- 1. Kho Web & Dự Án GitHub Live -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-globe"></i> Kho Web & Dự Án</span>
+                    <button class="mini-btn" onclick="loadLiveWebProjects()" title="Đồng bộ GitHub"><i class="fas fa-sync-alt"></i> Sync</button>
                 </div>
 
-                <div class="music-controls">
-                    <button class="ctrl-btn" id="shuffle-btn" onclick="toggleShuffle()" title="Ngẫu nhiên"><i class="fas fa-random"></i></button>
-                    <button class="ctrl-btn" onclick="prevTrack()" title="Bài trước"><i class="fas fa-step-backward"></i></button>
-                    <button class="play-btn" id="musicToggle" onclick="toggleMusic()" title="Phát / Tạm dừng"><i class="fas fa-play"></i></button>
-                    <button class="ctrl-btn" onclick="nextTrack()" title="Bài tiếp"><i class="fas fa-step-forward"></i></button>
-                    <button class="ctrl-btn" id="loop-btn" onclick="toggleLoop()" title="Lặp lại 1 bài"><i class="fas fa-redo"></i></button>
-                </div>
+                <a href="https://nguyentrungthanhctut.github.io/Respority/" target="_blank" class="hub-banner-link" onclick="recordWebAccess('Trang Tổng Hợp Respority', 'https://nguyentrungthanhctut.github.io/Respority/')">
+                    <span><i class="fas fa-rocket"></i> Portal: /Respority/</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
 
-                <div class="volume-box">
-                    <i class="fas fa-volume-up" id="mute-icon" onclick="toggleMute()"></i>
-                    <input type="range" id="volume-bar" min="0" max="1" step="0.05" value="0.8">
+                <div class="web-list" id="live-web-list">
+                    <div style="font-size: 0.8rem; opacity: 0.75; text-align: center; padding: 12px;">
+                        <i class="fas fa-spinner fa-spin"></i> Đang đồng bộ danh sách web từ GitHub...
+                    </div>
                 </div>
             </div>
 
-            <div class="btn-group">
-                <button class="action-btn" onclick="openModal('docModal')"><i class="fas fa-terminal"></i> <span id="txt-doc">Tài Liệu Đen</span></button>
-                <button class="action-btn" onclick="fetchGitHubRepos()"><i class="fab fa-github"></i> <span id="txt-git">Dự Án GitHub</span></button>
+            <!-- 2. Terminal Tương Tác (Interactive CLI) -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-terminal"></i> ThanhDev Terminal</span>
+                    <span style="font-size: 0.7rem; opacity: 0.75;">bash v2.6</span>
+                </div>
+                <div class="terminal-box" onclick="document.getElementById('cli-input').focus()">
+                    <div class="terminal-output" id="cli-output">
+                        <div>Welcome to <strong>ThanhDev Hub OS</strong>!</div>
+                        <div>Gõ <span style="color:#fff;">help</span> hoặc bấm lệnh nhanh bên dưới.</div>
+                    </div>
+                    <div class="terminal-input-row">
+                        <span>guest@thanhdev:~$</span>
+                        <input type="text" id="cli-input" placeholder="Nhập lệnh..." autocomplete="off">
+                    </div>
+                </div>
+                <div class="cli-chips">
+                    <button class="cli-chip" onclick="runCliCommand('help')">help</button>
+                    <button class="cli-chip" onclick="runCliCommand('skills')">skills</button>
+                    <button class="cli-chip" onclick="runCliCommand('projects')">projects</button>
+                    <button class="cli-chip" onclick="runCliCommand('contact')">contact</button>
+                    <button class="cli-chip" onclick="runCliCommand('matrix')">matrix</button>
+                    <button class="cli-chip" onclick="runCliCommand('clear')">clear</button>
+                </div>
             </div>
 
-            <!-- Trình phát Audio ẩn -->
-            <audio id="local-audio" src="nhac.mp3" crossorigin="anonymous"></audio>
+            <!-- 3. Tech Stack & Tiến Độ Học Tập -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-layer-group"></i> Tech Stack & Học Tập</span>
+                    <span style="font-size: 0.7rem; opacity: 0.75;">CTUT CS</span>
+                </div>
 
-            <div class="social-links">
-                <a href="https://www.facebook.com/?locale=vi_VN" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.threads.com/@thanhokiidol888" target="_blank" title="Threads"><i class="fa-brands fa-threads"></i></a>
-                <a href="https://www.instagram.com/thanhokiidol888/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@hokxgokai?lang=vi-VN" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a href="https://github.com/Nguyentrungthanhctut" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <div class="skill-item">
+                    <div class="skill-label"><span>HTML5 / CSS3 / JavaScript</span><span>90%</span></div>
+                    <div class="skill-track"><div class="skill-fill" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>Python / AI & Data Science</span><span>78%</span></div>
+                    <div class="skill-track"><div class="skill-fill" style="width: 78%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>C / C++ & Giải Thuật</span><span>82%</span></div>
+                    <div class="skill-track"><div class="skill-fill" style="width: 82%;"></div></div>
+                </div>
+                <div class="skill-item" style="margin-bottom: 4px;">
+                    <div class="skill-label"><span>Git / GitHub & Cursor AI</span><span>88%</span></div>
+                    <div class="skill-track"><div class="skill-fill" style="width: 88%;"></div></div>
+                </div>
+
+                <div class="cert-badges">
+                    <span class="cert-tag"><i class="fas fa-brain"></i> GCI World AI</span>
+                    <span class="cert-tag"><i class="fas fa-code"></i> Fullstack Web</span>
+                    <span class="cert-tag"><i class="fas fa-language"></i> VSTEP B1/B2</span>
+                </div>
             </div>
 
-            <div class="copyright" id="copyright">&copy; 2026 Crafted by Nguyễn Trung Thành • ThanhDev Hub.</div>
-        </div>
+            <!-- 4. Trạng Thái Hệ Thống -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-microchip"></i> System Status</span>
+                    <span style="font-size: 0.7rem; color: #00ff41;">● ONLINE</span>
+                </div>
+                <div class="sys-grid">
+                    <div class="sys-box">
+                        <div class="sys-val" id="sys-fps">60 FPS</div>
+                        <div class="sys-lbl">Matrix Engine</div>
+                    </div>
+                    <div class="sys-box">
+                        <div class="sys-val" id="sys-device">Desktop</div>
+                        <div class="sys-lbl" id="sys-browser">Browser</div>
+                    </div>
+                    <div class="sys-box">
+                        <div class="sys-val" id="sys-visits">1</div>
+                        <div class="sys-lbl">Lượt truy cập</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================== KHUNG GIỮA: PROFILE CARD 3D ==================== -->
+        <main id="center-column">
+            <div class="card-container" id="tilt-container">
+                <div class="profile-card" id="profile-card">
+                    <div class="tools-left">
+                        <button class="icon-btn" onclick="showQR()" title="QR Profile"><i class="fas fa-qrcode"></i></button>
+                        <button class="icon-btn" onclick="copyURL()" title="Copy Link"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                    <div class="tools-right">
+                        <button class="icon-btn" id="lang-btn" onclick="toggleLang()" title="Switch Language">EN</button>
+                        <button class="icon-btn" onclick="toggleTheme()" title="Switch Theme"><i class="fas fa-palette"></i></button>
+                    </div>
+
+                    <!-- Avatar 2 mặt tự lật: Mặt trước (anh.jpg) / Mặt sau (logo.jpg) -->
+                    <div class="avatar-wrapper" id="avatar-flip-box" onclick="manualFlipAvatar()" title="Chạm hoặc di chuột để lật Logo">
+                        <div class="avatar-flipper">
+                            <img src="anh.jpg" alt="Nguyễn Trung Thành" class="avatar-face avatar-front" onerror="this.src='https://ui-avatars.com/api/?name=Trung+Thanh&background=0a140e&color=00ff41&size=140'">
+                            <img src="logo.jpg" alt="ThanhDev Hub Logo" class="avatar-face avatar-back" onerror="this.src='https://ui-avatars.com/api/?name=ThanhDev+Hub&background=0a140e&color=00ff41&size=140'">
+                        </div>
+                        <span class="status-dot" title="Online"></span>
+                    </div>
+
+                    <div class="name">Nguyễn Trung Thành</div>
+                    <div class="bio" id="typing-text">> </div>
+
+                    <!-- Đồng hồ & Thời tiết Real-time -->
+                    <div class="info-row">
+                        <div><i class="fas fa-map-marker-alt"></i> <span id="location">Cần Thơ, VN</span></div>
+                        <span>|</span>
+                        <div><i id="weather-icon" class="fas fa-cloud-sun"></i> <span id="weather-temp">--°C</span></div>
+                        <span>|</span>
+                        <div class="clock-container"><i class="fas fa-clock"></i> <span id="clock">00:00:00</span></div>
+                    </div>
+
+                    <!-- TRÌNH PHÁT NHẠC NÂNG CAO -->
+                    <div class="music-player-box">
+                        <div class="track-info">
+                            <span id="track-label">♪ Bài 1/6 — nhac.mp3</span>
+                        </div>
+                        <canvas id="visualizer"></canvas>
+
+                        <div class="progress-container">
+                            <span id="current-time">0:00</span>
+                            <input type="range" id="progress-bar" value="0" min="0" max="100">
+                            <span id="duration">0:00</span>
+                        </div>
+
+                        <div class="music-controls">
+                            <button class="ctrl-btn" id="shuffle-btn" onclick="toggleShuffle()" title="Ngẫu nhiên"><i class="fas fa-random"></i></button>
+                            <button class="ctrl-btn" onclick="prevTrack()" title="Bài trước"><i class="fas fa-step-backward"></i></button>
+                            <button class="play-btn" id="musicToggle" onclick="toggleMusic()" title="Phát / Tạm dừng"><i class="fas fa-play"></i></button>
+                            <button class="ctrl-btn" onclick="nextTrack()" title="Bài tiếp"><i class="fas fa-step-forward"></i></button>
+                            <button class="ctrl-btn" id="loop-btn" onclick="toggleLoop()" title="Lặp lại 1 bài"><i class="fas fa-redo"></i></button>
+                        </div>
+
+                        <div class="volume-box">
+                            <i class="fas fa-volume-up" id="mute-icon" onclick="toggleMute()"></i>
+                            <input type="range" id="volume-bar" min="0" max="1" step="0.05" value="0.8">
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="action-btn" onclick="openModal('docModal')"><i class="fas fa-terminal"></i> <span id="txt-doc">Tài Liệu Đen</span></button>
+                        <button class="action-btn" onclick="fetchGitHubRepos()"><i class="fab fa-github"></i> <span id="txt-git">Dự Án GitHub</span></button>
+                    </div>
+
+                    <!-- Trình phát Audio ẩn -->
+                    <audio id="local-audio" src="nhac.mp3" crossorigin="anonymous"></audio>
+
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/?locale=vi_VN" target="_blank" title="Facebook" onclick="recordWebAccess('Facebook', 'https://www.facebook.com')"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.threads.com/@thanhokiidol888" target="_blank" title="Threads" onclick="recordWebAccess('Threads @thanhokiidol888', 'https://www.threads.com/@thanhokiidol888')"><i class="fa-brands fa-threads"></i></a>
+                        <a href="https://www.instagram.com/thanhokiidol888/" target="_blank" title="Instagram" onclick="recordWebAccess('Instagram @thanhokiidol888', 'https://www.instagram.com/thanhokiidol888/')"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@hokxgokai?lang=vi-VN" target="_blank" title="TikTok" onclick="recordWebAccess('TikTok @hokxgokai', 'https://www.tiktok.com/@hokxgokai')"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://github.com/Nguyentrungthanhctut" target="_blank" title="GitHub" onclick="recordWebAccess('GitHub Profile', 'https://github.com/Nguyentrungthanhctut')"><i class="fab fa-github"></i></a>
+                    </div>
+
+                    <div class="copyright" id="copyright">&copy; 2026 Crafted by Nguyễn Trung Thành • ThanhDev Hub.</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ==================== KHUNG PHẢI: POMODORO, LỊCH SỬ, LỊCH, GHI CHÚ ==================== -->
+        <aside class="side-column" id="right-column">
+            <!-- 1. Bộ đếm Pomodoro (25p Focus / 5p Break) -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-stopwatch"></i> Pomodoro Focus</span>
+                    <span id="pomo-status-tag" style="font-size: 0.7rem; opacity: 0.8;">25m Học • 5m Nghỉ</span>
+                </div>
+                <div class="pomo-display">
+                    <div class="pomo-mode-tabs">
+                        <button class="pomo-tab active" id="tab-focus" onclick="setPomoMode('focus')">Học / Code (25p)</button>
+                        <button class="pomo-tab" id="tab-break" onclick="setPomoMode('break')">Nghỉ ngơi (5p)</button>
+                    </div>
+                    <div class="pomo-time" id="pomo-timer">25:00</div>
+                    <div class="pomo-actions">
+                        <button class="pomo-btn primary" id="pomo-start-btn" onclick="togglePomodoro()">
+                            <i class="fas fa-play"></i> Start + Nhạc
+                        </button>
+                        <button class="pomo-btn" onclick="resetPomodoro()">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Lịch Sử Truy Cập Tự Động -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-history"></i> Lịch Sử Truy Cập</span>
+                    <button class="mini-btn" onclick="clearAccessHistory()" title="Xóa lịch sử"><i class="fas fa-trash"></i> Xóa</button>
+                </div>
+                <div class="history-list" id="access-history-list"></div>
+            </div>
+
+            <!-- 3. Xem Lịch Tháng -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-calendar-alt"></i> Lịch Hôm Nay</span>
+                    <span id="cal-today-str" style="font-size: 0.72rem;"></span>
+                </div>
+                <div class="cal-header">
+                    <button class="mini-btn" onclick="changeCalMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <span id="cal-month-year">Tháng 11, 2026</span>
+                    <button class="mini-btn" onclick="changeCalMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="cal-grid" id="mini-calendar-grid"></div>
+            </div>
+
+            <!-- 4. Ghi Chú Nhanh -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <span><i class="fas fa-sticky-note"></i> Ghi Chú Nhanh</span>
+                    <span id="note-saved-status" style="font-size: 0.7rem; opacity: 0.75;"><i class="fas fa-check-circle"></i> Tự động lưu</span>
+                </div>
+                <textarea id="quick-notes" placeholder="Ghi nhanh lịch học CTUT, ý tưởng code, to-do list tại đây..."></textarea>
+            </div>
+        </aside>
+
     </div>
 
     <!-- CÁC MODAL -->
@@ -312,7 +755,7 @@
         function startAutoFlip() {
             autoFlipTimer = setInterval(() => {
                 avatarFlipBox.classList.toggle('flipped');
-            }, 4000); // Tự động lật qua lại mỗi 4 giây
+            }, 4000);
         }
 
         function manualFlipAvatar() {
@@ -321,17 +764,17 @@
             startAutoFlip();
         }
 
-        // Tạm dừng tự lật khi người dùng đang di chuột vào xem
         avatarFlipBox.addEventListener('mouseenter', () => clearInterval(autoFlipTimer));
         avatarFlipBox.addEventListener('mouseleave', () => startAutoFlip());
         startAutoFlip();
 
-        /* ================= 1. NỀN MATRIX (TỐI ƯU FPS & RESIZE) ================= */
+        /* ================= 1. NỀN MATRIX + ĐO FPS HỆ THỐNG ================= */
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*<>{}[]'.split('');
         const fontSize = 14;
         let columns, drops;
+        let matrixPaused = false;
 
         function initMatrix() {
             canvas.width = window.innerWidth;
@@ -343,8 +786,19 @@
         window.addEventListener('resize', initMatrix);
 
         let lastTime = 0;
+        let frameCount = 0;
+        let lastFpsTime = performance.now();
+
         function drawMatrix(timestamp) {
-            if (timestamp - lastTime > 40) {
+            frameCount++;
+            if (timestamp - lastFpsTime >= 1000) {
+                const fpsEl = document.getElementById('sys-fps');
+                if (fpsEl) fpsEl.innerText = matrixPaused ? 'PAUSED' : `${frameCount} FPS`;
+                frameCount = 0;
+                lastFpsTime = timestamp;
+            }
+
+            if (!matrixPaused && timestamp - lastTime > 40) {
                 ctx.fillStyle = document.body.classList.contains('light-theme') ? 'rgba(240, 253, 244, 0.15)' : 'rgba(0, 0, 0, 0.1)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = document.body.classList.contains('light-theme') ? '#059669' : '#00ff41';
@@ -381,7 +835,7 @@
         let lang = 'vi';
         const i18n = {
             vi: {
-                roles: ["> Sinh viên Khoa học Máy tính - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Crypto Enthusiast_"],
+                roles: ["> Sinh viên Khoa học Máy tính - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Data Science Enthusiast_"],
                 location: "Cần Thơ, VN",
                 docBtn: "Tài Liệu Đen",
                 gitBtn: "Dự Án GitHub",
@@ -392,7 +846,7 @@
                 toastCopy: "Đã copy vào bộ nhớ tạm!"
             },
             en: {
-                roles: ["> Computer Science Student - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Crypto Enthusiast_"],
+                roles: ["> Computer Science Student - CTUET_", "> Web Developer (HTML/CSS/JS)_", "> AI & Data Science Enthusiast_"],
                 location: "Can Tho, VN",
                 docBtn: "Black Docs",
                 gitBtn: "GitHub Repos",
@@ -449,13 +903,60 @@
         }
         fetchWeather();
 
-        /* ================= 5. GITHUB API ================= */
+        /* ================= 5. KHO WEB LIVE SYNC & GITHUB API ================= */
+        let cachedRepos = [];
+
+        async function loadLiveWebProjects() {
+            const container = document.getElementById('live-web-list');
+            container.innerHTML = `<div style="font-size:0.78rem; text-align:center; padding:10px;"><i class="fas fa-spinner fa-spin"></i> Đang cập nhật từ GitHub...</div>`;
+            try {
+                const res = await fetch('https://api.github.com/users/Nguyentrungthanhctut/repos?sort=updated&per_page=30');
+                const repos = await res.json();
+                cachedRepos = Array.isArray(repos) ? repos : [];
+
+                if (cachedRepos.length === 0) {
+                    container.innerHTML = `<div style="font-size:0.78rem; opacity:0.75;">Chưa tìm thấy repository công khai.</div>`;
+                    return;
+                }
+
+                container.innerHTML = cachedRepos.map(repo => {
+                    const liveUrl = repo.homepage && repo.homepage.startsWith('http')
+                        ? repo.homepage
+                        : (repo.name.toLowerCase() === 'nguyentrungthanhctut.github.io'
+                            ? 'https://nguyentrungthanhctut.github.io/'
+                            : `https://nguyentrungthanhctut.github.io/${repo.name}/`);
+                    const updatedDate = new Date(repo.updated_at).toLocaleDateString('vi-VN');
+
+                    return `
+                        <div class="web-card">
+                            <div class="web-card-title">
+                                <span><i class="fas fa-folder-open" style="color:#00ff41;"></i> ${repo.name}</span>
+                                <span style="font-size:0.68rem; opacity:0.7;">${updatedDate}</span>
+                            </div>
+                            <div class="web-card-desc">${repo.description || 'Dự án web / mã nguồn trên GitHub ThanhDev Hub.'}</div>
+                            <div class="web-card-actions">
+                                <a href="${liveUrl}" target="_blank" class="mini-btn" onclick="recordWebAccess('${repo.name} (Web)', '${liveUrl}')">
+                                    <i class="fas fa-play"></i> Mở Web
+                                </a>
+                                <a href="${repo.html_url}" target="_blank" class="mini-btn" onclick="recordWebAccess('${repo.name} (Code)', '${repo.html_url}')">
+                                    <i class="fab fa-github"></i> Source
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                container.innerHTML = `<div style="font-size:0.78rem; color:#f87171;">Không thể kết nối GitHub API lúc này.</div>`;
+            }
+        }
+        loadLiveWebProjects();
+
         async function fetchGitHubRepos() {
             openModal('gitModal');
             const list = document.getElementById('repo-list');
             list.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Loading...";
             try {
-                const res = await fetch('https://api.github.com/users/Nguyentrungthanhctut/repos?sort=updated&per_page=5');
+                const res = await fetch('https://api.github.com/users/Nguyentrungthanhctut/repos?sort=updated&per_page=8');
                 const repos = await res.json();
                 list.innerHTML = "";
                 if (!Array.isArray(repos) || repos.length === 0) {
@@ -463,19 +964,93 @@
                     return;
                 }
                 repos.forEach(repo => {
+                    const liveUrl = `https://nguyentrungthanhctut.github.io/${repo.name}/`;
                     list.innerHTML += `<div class="repo-item">
-                        <a href="${repo.html_url}" target="_blank"><i class="fas fa-book"></i> ${repo.name}</a>
+                        <a href="${repo.html_url}" target="_blank" onclick="recordWebAccess('${repo.name}', '${repo.html_url}')"><i class="fas fa-book"></i> ${repo.name}</a>
                         <p>${repo.description || 'No description provided.'}</p>
                         <p style="font-size:0.75rem; margin-top:8px;">
                             ${repo.language ? `<span class="badge-lang">${repo.language}</span>` : ''}
                             ⭐ ${repo.stargazers_count} &nbsp;|&nbsp; 🍴 ${repo.forks_count}
+                            &nbsp;|&nbsp; <a href="${liveUrl}" target="_blank" style="font-size:0.75rem;" onclick="recordWebAccess('${repo.name} (Live)', '${liveUrl}')">🌐 Live Demo</a>
                         </p>
                     </div>`;
                 });
             } catch (e) { list.innerHTML = "Lỗi kết nối GitHub API."; }
         }
 
-        /* ================= 6. WEB AUDIO API & TRÌNH PHÁT NHẠC PRO ================= */
+        /* ================= 6. INTERACTIVE TERMINAL (CLI) ================= */
+        const cliInput = document.getElementById('cli-input');
+        const cliOutput = document.getElementById('cli-output');
+
+        cliInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = cliInput.value.trim();
+                if (cmd) runCliCommand(cmd);
+                cliInput.value = '';
+            }
+        });
+
+        function printCli(html) {
+            const line = document.createElement('div');
+            line.innerHTML = html;
+            cliOutput.appendChild(line);
+            cliOutput.scrollTop = cliOutput.scrollHeight;
+        }
+
+        function runCliCommand(rawCmd) {
+            const cmd = rawCmd.toLowerCase().trim();
+            printCli(`<span style="color:#fff;">guest@thanhdev:~$ ${rawCmd}</span>`);
+
+            switch (cmd) {
+                case 'help':
+                    printCli(`Các lệnh hỗ trợ: <b>help</b>, <b>skills</b>, <b>projects</b>, <b>contact</b>, <b>matrix</b>, <b>clear</b>`);
+                    break;
+                case 'skills':
+                    printCli(`• Frontend: HTML5, CSS3, Tailwind, Vanilla JS<br>• Languages: Python, C/C++<br>• Focus: AI / Data Science (GCI World), Web Dev`);
+                    break;
+                case 'projects':
+                    if (cachedRepos.length > 0) {
+                        const names = cachedRepos.slice(0, 6).map(r => r.name).join(', ');
+                        printCli(`Repos mới nhất (${cachedRepos.length}): <b>${names}</b><br>Portal: <a href="https://nguyentrungthanhctut.github.io/Respority/" target="_blank" style="color:#00ff41;">/Respority/</a>`);
+                    } else {
+                        printCli(`Đang tải danh sách repo... thử lại sau vài giây.`);
+                    }
+                    break;
+                case 'contact':
+                    printCli(`• Name: Nguyễn Trung Thành (ThanhDev Hub)<br>• Univ: CTUT - Cần Thơ, VN<br>• GitHub: github.com/Nguyentrungthanhctut<br>• IG/Threads: @thanhokiidol888`);
+                    break;
+                case 'matrix':
+                    matrixPaused = !matrixPaused;
+                    printCli(`Matrix rain: <b>${matrixPaused ? 'PAUSED (Tạm dừng)' : 'RUNNING (Đang chạy)'}</b>`);
+                    break;
+                case 'clear':
+                    cliOutput.innerHTML = '';
+                    break;
+                default:
+                    printCli(`Lệnh không hợp lệ: <i>${rawCmd}</i>. Gõ <b>help</b> để xem danh sách lệnh.`);
+            }
+        }
+
+        /* ================= 7. SYSTEM STATUS (DEVICE, BROWSER, VISITS) ================= */
+        function initSystemStatus() {
+            const ua = navigator.userAgent;
+            const isMobile = /Mobi|Android|iPhone/i.test(ua);
+            document.getElementById('sys-device').innerText = isMobile ? 'Mobile' : 'Desktop';
+
+            let browser = 'Web';
+            if (ua.includes('Edg')) browser = 'Edge';
+            else if (ua.includes('Chrome')) browser = 'Chrome';
+            else if (ua.includes('Firefox')) browser = 'Firefox';
+            else if (ua.includes('Safari')) browser = 'Safari';
+            document.getElementById('sys-browser').innerText = browser;
+
+            let visits = parseInt(localStorage.getItem('thanhdev_visit_count') || '0', 10) + 1;
+            localStorage.setItem('thanhdev_visit_count', visits.toString());
+            document.getElementById('sys-visits').innerText = visits;
+        }
+        initSystemStatus();
+
+        /* ================= 8. WEB AUDIO API & TRÌNH PHÁT NHẠC PRO ================= */
         const playlist = ["nhac.mp3", "nhac2.mp3", "nhac3.mp3", "nhac4.mp3", "nhac5.mp3", "nhac6.mp3"];
         let currentTrack = 0, isShuffle = false, isLoop = false;
         const audio = document.getElementById('local-audio');
@@ -574,6 +1149,14 @@
             audio.play().catch(() => {});
         }
 
+        function playMusicDirect() {
+            if (!isAudioInit) initAudioAPI();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            if (audio.paused) {
+                audio.play().catch(() => showToast("Hãy chạy qua Live Server để phát nhạc!"));
+            }
+        }
+
         function toggleMusic() {
             if (!isAudioInit) initAudioAPI();
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
@@ -591,15 +1174,159 @@
             loadTrack((currentTrack - 1 + playlist.length) % playlist.length);
         }
 
-        // Phím tắt Space để Play/Pause nhạc
+        // Phím tắt Space (tránh kích hoạt khi đang gõ ở Terminal hoặc Ghi chú)
         document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && document.activeElement.tagName !== 'BUTTON') {
+            const tag = document.activeElement.tagName;
+            if (e.code === 'Space' && tag !== 'BUTTON' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
                 e.preventDefault();
                 toggleMusic();
             }
         });
 
-        /* ================= 7. TIỆN ÍCH CHUNG & THEME ================= */
+        /* ================= 9. POMODORO TIMER (25p HỌC / 5p NGHỈ + AUTO MUSIC) ================= */
+        let pomoMode = 'focus';
+        let pomoSeconds = 25 * 60;
+        let pomoInterval = null;
+
+        function formatPomo(sec) {
+            const m = String(Math.floor(sec / 60)).padStart(2, '0');
+            const s = String(sec % 60).padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function setPomoMode(mode) {
+            clearInterval(pomoInterval);
+            pomoInterval = null;
+            pomoMode = mode;
+            pomoSeconds = mode === 'focus' ? 25 * 60 : 5 * 60;
+            document.getElementById('pomo-timer').innerText = formatPomo(pomoSeconds);
+            document.getElementById('tab-focus').classList.toggle('active', mode === 'focus');
+            document.getElementById('tab-break').classList.toggle('active', mode === 'break');
+            document.getElementById('pomo-start-btn').innerHTML = mode === 'focus'
+                ? '<i class="fas fa-play"></i> Start + Nhạc'
+                : '<i class="fas fa-play"></i> Start Nghỉ';
+        }
+
+        function togglePomodoro() {
+            const btn = document.getElementById('pomo-start-btn');
+            if (pomoInterval) {
+                clearInterval(pomoInterval);
+                pomoInterval = null;
+                btn.innerHTML = '<i class="fas fa-play"></i> Tiếp tục';
+            } else {
+                // Tự động bật nhạc nền trên thẻ giữa khi bắt đầu phiên học
+                if (pomoMode === 'focus') {
+                    playMusicDirect();
+                }
+                btn.innerHTML = '<i class="fas fa-pause"></i> Tạm dừng';
+                pomoInterval = setInterval(() => {
+                    if (pomoSeconds > 0) {
+                        pomoSeconds--;
+                        document.getElementById('pomo-timer').innerText = formatPomo(pomoSeconds);
+                    } else {
+                        clearInterval(pomoInterval);
+                        pomoInterval = null;
+                        if (pomoMode === 'focus') {
+                            showToast("🎉 Hoàn thành 25 phút học! Chuyển sang 5 phút nghỉ.");
+                            setPomoMode('break');
+                        } else {
+                            showToast("⏰ Hết giờ nghỉ! Sẵn sàng cho phiên học mới.");
+                            setPomoMode('focus');
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetPomodoro() {
+            setPomoMode(pomoMode);
+        }
+
+        /* ================= 10. LỊCH SỬ TRUY CẬP TỰ ĐỘNG ================= */
+        let accessHistory = JSON.parse(localStorage.getItem('thanhdev_access_history') || '[]');
+
+        function recordWebAccess(title, url) {
+            const now = new Date();
+            const timeStr = `${now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} • ${now.toLocaleDateString('vi-VN')}`;
+            accessHistory.unshift({ title, url, time: timeStr });
+            if (accessHistory.length > 25) accessHistory.pop();
+            localStorage.setItem('thanhdev_access_history', JSON.stringify(accessHistory));
+            renderAccessHistory();
+        }
+
+        function renderAccessHistory() {
+            const listEl = document.getElementById('access-history-list');
+            if (accessHistory.length === 0) {
+                listEl.innerHTML = `<div style="text-align:center; opacity:0.65; padding:10px;">Chưa có lịch sử truy cập.</div>`;
+                return;
+            }
+            listEl.innerHTML = accessHistory.map(item => `
+                <div class="history-item">
+                    <div class="history-top">
+                        <a href="${item.url}" target="_blank" title="${item.url}">${item.title}</a>
+                        <span class="history-time">${item.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearAccessHistory() {
+            accessHistory = [];
+            localStorage.removeItem('thanhdev_access_history');
+            renderAccessHistory();
+            showToast("Đã xóa lịch sử truy cập!");
+        }
+
+        // Tự động ghi nhận lần truy cập trang hiện tại
+        recordWebAccess('ThanhDev Hub Dashboard', window.location.href);
+
+        /* ================= 11. LỊCH THÁNG MINI ================= */
+        let calDate = new Date();
+
+        function renderMiniCalendar() {
+            const now = new Date();
+            document.getElementById('cal-today-str').innerText = now.toLocaleDateString('vi-VN');
+
+            const year = calDate.getFullYear();
+            const month = calDate.getMonth();
+            document.getElementById('cal-month-year').innerText = `Tháng ${month + 1}, ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay(); // 0 = CN
+            const startOffset = firstDay === 0 ? 6 : firstDay - 1; // Bắt đầu từ Thứ 2
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const dayNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+            let html = dayNames.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+
+            for (let i = 0; i < startOffset; i++) {
+                html += `<div class="cal-cell empty"></div>`;
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = d === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+                html += `<div class="cal-cell ${isToday ? 'today' : ''}">${d}</div>`;
+            }
+
+            document.getElementById('mini-calendar-grid').innerHTML = html;
+        }
+
+        function changeCalMonth(delta) {
+            calDate.setMonth(calDate.getMonth() + delta);
+            renderMiniCalendar();
+        }
+        renderMiniCalendar();
+
+        /* ================= 12. GHI CHÚ NHANH (AUTO-SAVE) ================= */
+        const notesEl = document.getElementById('quick-notes');
+        const noteStatusEl = document.getElementById('note-saved-status');
+        notesEl.value = localStorage.getItem('thanhdev_quick_notes') || '';
+
+        notesEl.addEventListener('input', () => {
+            localStorage.setItem('thanhdev_quick_notes', notesEl.value);
+            noteStatusEl.innerHTML = `<i class="fas fa-check-circle"></i> Đã lưu`;
+        });
+
+        /* ================= 13. TIỆN ÍCH CHUNG & THEME ================= */
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.innerText = msg || i18n[lang].toastCopy;
