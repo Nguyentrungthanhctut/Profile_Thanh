@@ -191,7 +191,7 @@
         }
         .cli-chip:hover { background: #00ff41; color: #000; }
 
-        /* 3. Dev Utilities (Password & Base64 Tool) */
+        /* 3. Dev Utilities */
         .dev-tool-group { display: flex; flex-direction: column; gap: 8px; }
         .dev-input-row { display: flex; gap: 6px; }
         .dev-input {
@@ -337,7 +337,7 @@
         .copyright { font-size: 0.74rem; opacity: 0.65; }
 
         /* ================= RIGHT COLUMN WIDGETS ================= */
-        /* 1. Pomodoro Timer */
+        /* 1. Pomodoro Timer (Custom Time + Ting Ting Bell) */
         .pomo-display {
             text-align: center;
             background: rgba(0, 0, 0, 0.38);
@@ -355,9 +355,37 @@
         body.light-theme .pomo-tab.active { background: #059669; color: #fff; border-color: #059669; }
         .pomo-time {
             font-size: 2.1rem; font-weight: 800; font-family: monospace; color: #00ff41;
-            letter-spacing: 2px; margin: 4px 0 10px;
+            letter-spacing: 2px; margin: 2px 0 8px;
         }
         body.light-theme .pomo-time { color: #059669; }
+        .pomo-custom-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 0.73rem;
+        }
+        .pomo-custom-row label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.9;
+        }
+        .pomo-num-input {
+            width: 48px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(0, 255, 65, 0.35);
+            border-radius: 8px;
+            color: inherit;
+            text-align: center;
+            padding: 3px 4px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.76rem;
+            outline: none;
+        }
+        body.light-theme .pomo-num-input { background: #ffffff; border-color: rgba(5, 150, 105, 0.35); }
         .pomo-actions { display: flex; justify-content: center; gap: 8px; }
         .pomo-btn {
             padding: 6px 14px; border-radius: 18px; border: 1px solid rgba(0, 255, 65, 0.4);
@@ -497,7 +525,7 @@
                 </div>
                 <div class="dev-tool-group">
                     <div class="dev-input-row">
-                        <input type="text" id="dev-tool-input" class="dev-input" placeholder="Nhập chuỗi hoặc tạo mật khẩu..." readonly>
+                        <input type="text" id="dev-tool-input" class="dev-input" placeholder="Kết quả tạo nhanh..." readonly>
                         <button class="mini-btn" onclick="copyDevOutput()" title="Copy kết quả"><i class="fas fa-copy"></i></button>
                     </div>
                     <div class="dev-btn-row">
@@ -531,7 +559,7 @@
             </div>
         </aside>
 
-        <!-- ==================== KHUNG GIỮA: PROFILE CARD 3D (GIỮ NGUYÊN) ==================== -->
+        <!-- ==================== KHUNG GIỮA: PROFILE CARD 3D ==================== -->
         <main id="center-column">
             <div class="card-container" id="tilt-container">
                 <div class="profile-card" id="profile-card">
@@ -615,21 +643,30 @@
 
         <!-- ==================== KHUNG PHẢI: POMODORO, LỊCH SỬ, LỊCH, GHI CHÚ ==================== -->
         <aside class="side-column" id="right-column">
-            <!-- 1. Bộ đếm Pomodoro (25p Focus / 5p Break) -->
+            <!-- 1. Bộ đếm Pomodoro (Tùy chỉnh thời gian + Báo thức Ting Ting) -->
             <div class="glass-panel">
                 <div class="panel-header">
                     <span><i class="fas fa-stopwatch"></i> Pomodoro Focus</span>
-                    <span id="pomo-status-tag" style="font-size: 0.7rem; opacity: 0.8;">25m Học • 5m Nghỉ</span>
+                    <button class="mini-btn" onclick="playTingTingBell()" title="Nghe thử chuông báo"><i class="fas fa-bell"></i> Ting Ting</button>
                 </div>
                 <div class="pomo-display">
                     <div class="pomo-mode-tabs">
-                        <button class="pomo-tab active" id="tab-focus" onclick="setPomoMode('focus')">Học / Code (25p)</button>
-                        <button class="pomo-tab" id="tab-break" onclick="setPomoMode('break')">Nghỉ ngơi (5p)</button>
+                        <button class="pomo-tab active" id="tab-focus" onclick="setPomoMode('focus')">Học / Code</button>
+                        <button class="pomo-tab" id="tab-break" onclick="setPomoMode('break')">Nghỉ ngơi</button>
                     </div>
+
                     <div class="pomo-time" id="pomo-timer">25:00</div>
+
+                    <!-- Tùy chỉnh số phút trực tiếp -->
+                    <div class="pomo-custom-row">
+                        <label>Học: <input type="number" id="custom-focus-min" class="pomo-num-input" min="1" max="180" value="25" onchange="updatePomoCustomTime()"> p</label>
+                        <span>|</span>
+                        <label>Nghỉ: <input type="number" id="custom-break-min" class="pomo-num-input" min="1" max="60" value="5" onchange="updatePomoCustomTime()"> p</label>
+                    </div>
+
                     <div class="pomo-actions">
                         <button class="pomo-btn primary" id="pomo-start-btn" onclick="togglePomodoro()">
-                            <i class="fas fa-play"></i> Start + Nhạc
+                            <i class="fas fa-play"></i> Start
                         </button>
                         <button class="pomo-btn" onclick="resetPomodoro()">
                             <i class="fas fa-undo"></i> Reset
@@ -876,7 +913,6 @@
                 const repos = await res.json();
                 const list = Array.isArray(repos) ? repos : [];
 
-                // Lọc các repo có bật GitHub Pages hoặc trang web chính
                 liveWebApps = list
                     .filter(r => r.has_pages || (r.homepage && r.homepage.startsWith('http')))
                     .map(r => {
@@ -910,7 +946,7 @@
         }
         loadLiveWebApps();
 
-        // Modal GitHub ở thẻ giữa (Giữ nguyên)
+        // Modal GitHub ở thẻ giữa
         async function fetchGitHubRepos() {
             openModal('gitModal');
             const list = document.getElementById('repo-list');
@@ -1016,9 +1052,8 @@
             navigator.clipboard.writeText(devToolInput.value);
             showToast("Đã copy: " + devToolInput.value);
         }
-        genStrongPass(); // Khởi tạo sẵn 1 mật khẩu
+        genStrongPass();
 
-        // System Monitor (Device, Browser, Uptime)
         function initSystemMonitor() {
             const ua = navigator.userAgent;
             const isMobile = /Mobi|Android|iPhone/i.test(ua);
@@ -1140,14 +1175,6 @@
             audio.play().catch(() => {});
         }
 
-        function playMusicDirect() {
-            if (!isAudioInit) initAudioAPI();
-            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-            if (audio.paused) {
-                audio.play().catch(() => showToast("Hãy chạy qua Live Server để phát nhạc!"));
-            }
-        }
-
         function toggleMusic() {
             if (!isAudioInit) initAudioAPI();
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
@@ -1173,10 +1200,17 @@
             }
         });
 
-        /* ================= 9. POMODORO TIMER (25p HỌC / 5p NGHỈ + AUTO MUSIC) ================= */
+        /* ================= 9. POMODORO TIMER (TÙY CHỈNH THỜI GIAN + TING TING) ================= */
         let pomoMode = 'focus';
-        let pomoSeconds = 25 * 60;
+        let customFocusMin = parseInt(localStorage.getItem('thanhdev_pomo_focus') || '25', 10);
+        let customBreakMin = parseInt(localStorage.getItem('thanhdev_pomo_break') || '5', 10);
+        let pomoSeconds = customFocusMin * 60;
         let pomoInterval = null;
+
+        const focusInputEl = document.getElementById('custom-focus-min');
+        const breakInputEl = document.getElementById('custom-break-min');
+        focusInputEl.value = customFocusMin;
+        breakInputEl.value = customBreakMin;
 
         function formatPomo(sec) {
             const m = String(Math.floor(sec / 60)).padStart(2, '0');
@@ -1184,17 +1218,65 @@
             return `${m}:${s}`;
         }
 
+        // Âm thanh báo thức "Ting Ting" trong trẻo bằng Web Audio API
+        function playTingTingBell() {
+            try {
+                const BellCtx = window.AudioContext || window.webkitAudioContext;
+                const bCtx = new BellCtx();
+                const now = bCtx.currentTime;
+
+                [0, 0.24].forEach((delay, idx) => {
+                    const osc = bCtx.createOscillator();
+                    const gain = bCtx.createGain();
+                    osc.type = 'sine';
+                    // Nốt E6 (1318.5Hz) -> A6 (1760Hz) tạo hiệu ứng "ting - ting"
+                    osc.frequency.setValueAtTime(idx === 0 ? 1318.5 : 1760, now + delay);
+
+                    gain.gain.setValueAtTime(0.001, now + delay);
+                    gain.gain.exponentialRampToValueAtTime(0.35, now + delay + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.75);
+
+                    osc.connect(gain);
+                    gain.connect(bCtx.destination);
+                    osc.start(now + delay);
+                    osc.stop(now + delay + 0.8);
+                });
+            } catch (e) {
+                console.warn("Không thể phát âm báo:", e);
+            }
+        }
+
+        function updatePomoCustomTime() {
+            let fVal = parseInt(focusInputEl.value, 10);
+            let bVal = parseInt(breakInputEl.value, 10);
+            if (isNaN(fVal) || fVal < 1) fVal = 1;
+            if (fVal > 180) fVal = 180;
+            if (isNaN(bVal) || bVal < 1) bVal = 1;
+            if (bVal > 60) bVal = 60;
+
+            focusInputEl.value = fVal;
+            breakInputEl.value = bVal;
+            customFocusMin = fVal;
+            customBreakMin = bVal;
+
+            localStorage.setItem('thanhdev_pomo_focus', fVal.toString());
+            localStorage.setItem('thanhdev_pomo_break', bVal.toString());
+
+            if (!pomoInterval) {
+                pomoSeconds = (pomoMode === 'focus' ? customFocusMin : customBreakMin) * 60;
+                document.getElementById('pomo-timer').innerText = formatPomo(pomoSeconds);
+            }
+        }
+
         function setPomoMode(mode) {
             clearInterval(pomoInterval);
             pomoInterval = null;
             pomoMode = mode;
-            pomoSeconds = mode === 'focus' ? 25 * 60 : 5 * 60;
+            pomoSeconds = (mode === 'focus' ? customFocusMin : customBreakMin) * 60;
             document.getElementById('pomo-timer').innerText = formatPomo(pomoSeconds);
             document.getElementById('tab-focus').classList.toggle('active', mode === 'focus');
             document.getElementById('tab-break').classList.toggle('active', mode === 'break');
-            document.getElementById('pomo-start-btn').innerHTML = mode === 'focus'
-                ? '<i class="fas fa-play"></i> Start + Nhạc'
-                : '<i class="fas fa-play"></i> Start Nghỉ';
+            document.getElementById('pomo-start-btn').innerHTML = '<i class="fas fa-play"></i> Start';
         }
 
         function togglePomodoro() {
@@ -1204,9 +1286,7 @@
                 pomoInterval = null;
                 btn.innerHTML = '<i class="fas fa-play"></i> Tiếp tục';
             } else {
-                if (pomoMode === 'focus') {
-                    playMusicDirect();
-                }
+                // Không tự bật nhạc nền — chỉ đếm giờ và báo thức ting ting khi xong
                 btn.innerHTML = '<i class="fas fa-pause"></i> Tạm dừng';
                 pomoInterval = setInterval(() => {
                     if (pomoSeconds > 0) {
@@ -1215,11 +1295,12 @@
                     } else {
                         clearInterval(pomoInterval);
                         pomoInterval = null;
+                        playTingTingBell();
                         if (pomoMode === 'focus') {
-                            showToast("🎉 Hoàn thành 25 phút học! Chuyển sang 5 phút nghỉ.");
+                            showToast(`🔔 Ting ting! Hoàn thành ${customFocusMin} phút học!`);
                             setPomoMode('break');
                         } else {
-                            showToast("⏰ Hết giờ nghỉ! Sẵn sàng cho phiên học mới.");
+                            showToast(`🔔 Ting ting! Hết ${customBreakMin} phút nghỉ!`);
                             setPomoMode('focus');
                         }
                     }
@@ -1230,6 +1311,7 @@
         function resetPomodoro() {
             setPomoMode(pomoMode);
         }
+        document.getElementById('pomo-timer').innerText = formatPomo(pomoSeconds);
 
         /* ================= 10. LỊCH SỬ TRUY CẬP TỰ ĐỘNG ================= */
         let accessHistory = JSON.parse(localStorage.getItem('thanhdev_access_history') || '[]');
