@@ -1,13 +1,17 @@
-# 🚀 ThanhDev Hub — Personal Dashboard & Developer Workspace
+<div align="center">
+  <img src="logo.jpg" alt="ThanhDev Hub Logo" width="130" height="130" style="border-radius: 50%; border: 3px solid #00ff41;" />
+  <h1>🚀 ThanhDev Hub — Personal Dashboard & Developer Workspace</h1>
+  <p><strong>Trung tâm điều khiển cá nhân, công cụ lập trình & không gian học tập phong cách Matrix Cyberpunk</strong></p>
 
-![Status](https://img.shields.io/badge/Status-Active-00ff41?style=flat-square)
-![Version](https://img.shields.io/badge/Version-2.6-00b09b?style=flat-square)
-![Tech](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-1e293b?style=flat-square)
-![Author](https://img.shields.io/badge/Author-Nguyễn%20Trung%20Thành-059669?style=flat-square)
-
-**ThanhDev Hub** là trang Dashboard cá nhân tích hợp bộ công cụ tiện ích dành cho lập trình viên và học tập, thiết kế theo phong cách **Matrix Cyberpunk Glassmorphism** với bố cục 3 cột đối xứng, tương thích mọi kích thước màn hình (Desktop, Tablet, Mobile).
+  ![Status](https://img.shields.io/badge/Status-Active-00ff41?style=flat-square)
+  ![Version](https://img.shields.io/badge/Version-2.6-00b09b?style=flat-square)
+  ![Tech](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-1e293b?style=flat-square)
+  ![Author](https://img.shields.io/badge/Author-Nguyễn%20Trung%20Thành-059669?style=flat-square)
+</div>
 
 ---
+
+**ThanhDev Hub** là trang Dashboard cá nhân tích hợp bộ công cụ tiện ích dành cho lập trình viên và học tập, thiết kế theo phong cách **Matrix Cyberpunk Glassmorphism** với bố cục 3 cột đối xứng, tương thích mượt mà trên mọi kích thước màn hình (Desktop, Tablet, Mobile).
 
 ## ✨ Tính Năng Nổi Bật
 
@@ -56,6 +60,6 @@ Giao diện dòng lệnh mô phỏng Bash ngay trên trình duyệt, hỗ trợ 
 ThanhDev-Hub/
 ├── index.html      # Mã nguồn chính (HTML + CSS + JS tích hợp)
 ├── anh.jpg         # Ảnh đại diện mặt trước
-├── logo.jpg        # Logo mặt sau & Favicon
+├── logo.jpg        # Logo thương hiệu ThanhDev Hub (hiển thị ở README, Avatar mặt sau & Favicon)
 ├── nhac.mp3        # Danh sách nhạc nền (nhac.mp3 -> nhac6.mp3)
 └── README.md       # Tài liệu hướng dẫn sử dụng dự án
