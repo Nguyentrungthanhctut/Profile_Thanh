@@ -109,7 +109,7 @@
         /* ================= LEFT COLUMN WIDGETS ================= */
         /* 1. Live Web Showcase (GitHub Pages) */
         .web-list {
-            max-height: 230px;
+            max-height: 210px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -149,7 +149,7 @@
             color: #34d399;
         }
         .terminal-output {
-            height: 130px;
+            height: 115px;
             overflow-y: auto;
             line-height: 1.45;
             margin-bottom: 8px;
@@ -191,8 +191,8 @@
         }
         .cli-chip:hover { background: #00ff41; color: #000; }
 
-        /* 3. Dev Utilities */
-        .dev-tool-group { display: flex; flex-direction: column; gap: 8px; }
+        /* 3. Dev Utilities & Clone Gmail Generator */
+        .dev-tool-group { display: flex; flex-direction: column; gap: 9px; }
         .dev-input-row { display: flex; gap: 6px; }
         .dev-input {
             flex: 1;
@@ -207,6 +207,73 @@
         }
         body.light-theme .dev-input { background: rgba(255, 255, 255, 0.85); border-color: rgba(5, 150, 105, 0.3); }
         .dev-btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+        .clone-gen-box {
+            border-top: 1px dashed rgba(0, 255, 65, 0.28);
+            padding-top: 9px;
+            margin-top: 2px;
+        }
+        body.light-theme .clone-gen-box { border-top-color: rgba(5, 150, 105, 0.28); }
+        .clone-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 0.74rem;
+        }
+        .clone-count-input {
+            width: 52px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(0, 255, 65, 0.35);
+            border-radius: 8px;
+            color: inherit;
+            text-align: center;
+            padding: 4px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.76rem;
+            outline: none;
+        }
+        body.light-theme .clone-count-input { background: #ffffff; border-color: rgba(5, 150, 105, 0.35); }
+        .clone-list {
+            max-height: 175px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 2px;
+        }
+        .clone-item {
+            background: rgba(0, 0, 0, 0.38);
+            border: 1px solid rgba(0, 255, 65, 0.22);
+            border-radius: 10px;
+            padding: 7px 9px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+        body.light-theme .clone-item { background: rgba(240, 253, 244, 0.8); border-color: rgba(5, 150, 105, 0.22); }
+        .clone-info { min-width: 0; flex: 1; font-family: monospace; }
+        .clone-email { font-size: 0.73rem; font-weight: 700; color: #00ff41; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        body.light-theme .clone-email { color: #059669; }
+        .clone-pass { font-size: 0.69rem; opacity: 0.82; margin-top: 1px; }
+        .clone-copy-btns { display: flex; gap: 4px; flex-shrink: 0; }
+        .tiny-copy-btn {
+            background: rgba(0, 255, 65, 0.14);
+            border: 1px solid rgba(0, 255, 65, 0.32);
+            color: inherit;
+            padding: 3px 6px;
+            border-radius: 7px;
+            font-size: 0.67rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tiny-copy-btn:hover { background: #00ff41; color: #000; }
+        body.light-theme .tiny-copy-btn { background: rgba(5, 150, 105, 0.12); border-color: rgba(5, 150, 105, 0.32); }
+        body.light-theme .tiny-copy-btn:hover { background: #059669; color: #fff; }
 
         /* 4. System Monitor */
         .sys-grid {
@@ -517,21 +584,40 @@
                 </div>
             </div>
 
-            <!-- 3. Dev Utilities (Công Cụ Lập Trình Nhanh) -->
+            <!-- 3. Dev Utilities (Quick Tools + Tạo Gmail Clone hàng loạt) -->
             <div class="glass-panel">
                 <div class="panel-header">
                     <span><i class="fas fa-tools"></i> Dev Utilities</span>
-                    <span style="font-size: 0.7rem; opacity: 0.75;">Quick Tools</span>
+                    <span style="font-size: 0.7rem; opacity: 0.75;">@gmail.com Clone</span>
                 </div>
                 <div class="dev-tool-group">
+                    <!-- Tạo nhanh Pass / UUID / Timestamp -->
                     <div class="dev-input-row">
                         <input type="text" id="dev-tool-input" class="dev-input" placeholder="Kết quả tạo nhanh..." readonly>
                         <button class="mini-btn" onclick="copyDevOutput()" title="Copy kết quả"><i class="fas fa-copy"></i></button>
                     </div>
                     <div class="dev-btn-row">
-                        <button class="mini-btn" onclick="genStrongPass()"><i class="fas fa-key"></i> Pass 16 ký tự</button>
-                        <button class="mini-btn" onclick="genUUID()"><i class="fas fa-fingerprint"></i> UUID v4</button>
-                        <button class="mini-btn" onclick="genTimestamp()"><i class="fas fa-clock"></i> Unix Time</button>
+                        <button class="mini-btn" onclick="genStrongPass()"><i class="fas fa-key"></i> Pass 16</button>
+                        <button class="mini-btn" onclick="genUUID()"><i class="fas fa-fingerprint"></i> UUID</button>
+                        <button class="mini-btn" onclick="genTimestamp()"><i class="fas fa-clock"></i> Unix</button>
+                    </div>
+
+                    <!-- Tạo hàng loạt Email Clone @gmail.com -->
+                    <div class="clone-gen-box">
+                        <div class="clone-controls">
+                            <label><i class="fas fa-envelope"></i> Số acc:
+                                <input type="number" id="clone-count" class="clone-count-input" min="1" max="50" value="5">
+                            </label>
+                            <div style="display:flex; gap:5px;">
+                                <button class="mini-btn" onclick="generateCloneGmails()" style="background:#00ff41; color:#000; font-weight:700;">
+                                    <i class="fas fa-bolt"></i> Tạo Acc
+                                </button>
+                                <button class="mini-btn" onclick="copyAllCloneGmails()" title="Copy toàn bộ danh sách">
+                                    <i class="fas fa-copy"></i> All
+                                </button>
+                            </div>
+                        </div>
+                        <div class="clone-list" id="clone-gmail-list"></div>
                     </div>
                 </div>
             </div>
@@ -1026,14 +1112,18 @@
             }
         }
 
-        /* ================= 7. DEV UTILITIES & SYSTEM MONITOR ================= */
+        /* ================= 7. DEV UTILITIES & TẠO EMAIL CLONE @GMAIL.COM ================= */
         const devToolInput = document.getElementById('dev-tool-input');
 
-        function genStrongPass() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
+        function makeRandomPassword(len = 14) {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#%&*";
             let pass = "";
-            for (let i = 0; i < 16; i++) pass += chars[Math.floor(Math.random() * chars.length)];
-            devToolInput.value = pass;
+            for (let i = 0; i < len; i++) pass += chars[Math.floor(Math.random() * chars.length)];
+            return pass;
+        }
+
+        function genStrongPass() {
+            devToolInput.value = makeRandomPassword(16);
         }
 
         function genUUID() {
@@ -1054,6 +1144,80 @@
         }
         genStrongPass();
 
+        // Bộ tạo Acc Clone đuôi cố định @gmail.com
+        let generatedCloneAccounts = [];
+        const vnFirstNames = ["minh", "anh", "thanh", "nam", "huy", "khang", "bao", "phuc", "khoa", "dat", "duy", "tuan", "linh", "vy", "nhi", "tram", "quynh", "ngoc", "thao", "trang", "phuong", "han", "kiet", "long", "son"];
+        const vnLastNames = ["nguyen", "tran", "le", "pham", "hoang", "huynh", "phan", "vu", "vo", "dang", "bui", "do", "ho", "ngo", "duong", "ly"];
+        const vnTags = ["dev", "ctut", "it", "vn", "pro", "tech", "hub", "code", "2006", "2007", "888", "99"];
+
+        function createSingleGmailAddress() {
+            const fn = vnFirstNames[Math.floor(Math.random() * vnFirstNames.length)];
+            const ln = vnLastNames[Math.floor(Math.random() * vnLastNames.length)];
+            const tag = vnTags[Math.floor(Math.random() * vnTags.length)];
+            const num = Math.floor(100 + Math.random() * 900);
+            const patterns = [
+                `${fn}${ln}.${tag}${num}`,
+                `${ln}${fn}${num}`,
+                `${fn}.${ln}${tag}${Math.floor(10 + Math.random() * 89)}`,
+                `${fn}${tag}${num}`
+            ];
+            const localPart = patterns[Math.floor(Math.random() * patterns.length)];
+            return `${localPart}@gmail.com`;
+        }
+
+        function copyDirectText(text, label) {
+            navigator.clipboard.writeText(text);
+            showToast(`Đã copy ${label}: ${text}`);
+        }
+
+        function generateCloneGmails() {
+            const countInput = document.getElementById('clone-count');
+            let count = parseInt(countInput.value, 10);
+            if (isNaN(count) || count < 1) count = 1;
+            if (count > 50) count = 50;
+            countInput.value = count;
+
+            generatedCloneAccounts = [];
+            const usedEmails = new Set();
+
+            while (generatedCloneAccounts.length < count) {
+                const email = createSingleGmailAddress();
+                if (!usedEmails.has(email)) {
+                    usedEmails.add(email);
+                    generatedCloneAccounts.push({
+                        email,
+                        pass: makeRandomPassword(12)
+                    });
+                }
+            }
+
+            const listEl = document.getElementById('clone-gmail-list');
+            listEl.innerHTML = generatedCloneAccounts.map((acc, idx) => `
+                <div class="clone-item">
+                    <div class="clone-info">
+                        <div class="clone-email" title="${acc.email}">#${idx + 1} ${acc.email}</div>
+                        <div class="clone-pass">Pass: ${acc.pass}</div>
+                    </div>
+                    <div class="clone-copy-btns">
+                        <button class="tiny-copy-btn" onclick="copyDirectText('${acc.email}', 'Email')" title="Copy Email">Mail</button>
+                        <button class="tiny-copy-btn" onclick="copyDirectText('${acc.pass}', 'Pass')" title="Copy Mật khẩu">Pass</button>
+                        <button class="tiny-copy-btn" onclick="copyDirectText('${acc.email}|${acc.pass}', 'Acc')" title="Copy Email|Pass">Cả 2</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyAllCloneGmails() {
+            if (generatedCloneAccounts.length === 0) generateCloneGmails();
+            const allText = generatedCloneAccounts.map(a => `${a.email}|${a.pass}`).join('\n');
+            navigator.clipboard.writeText(allText);
+            showToast(`Đã copy toàn bộ ${generatedCloneAccounts.length} acc @gmail.com!`);
+        }
+
+        // Khởi tạo sẵn 5 acc mẫu khi mở trang
+        generateCloneGmails();
+
+        // System Monitor (Device, Browser, Uptime)
         function initSystemMonitor() {
             const ua = navigator.userAgent;
             const isMobile = /Mobi|Android|iPhone/i.test(ua);
@@ -1218,7 +1382,6 @@
             return `${m}:${s}`;
         }
 
-        // Âm thanh báo thức "Ting Ting" trong trẻo bằng Web Audio API
         function playTingTingBell() {
             try {
                 const BellCtx = window.AudioContext || window.webkitAudioContext;
@@ -1229,7 +1392,6 @@
                     const osc = bCtx.createOscillator();
                     const gain = bCtx.createGain();
                     osc.type = 'sine';
-                    // Nốt E6 (1318.5Hz) -> A6 (1760Hz) tạo hiệu ứng "ting - ting"
                     osc.frequency.setValueAtTime(idx === 0 ? 1318.5 : 1760, now + delay);
 
                     gain.gain.setValueAtTime(0.001, now + delay);
@@ -1286,7 +1448,6 @@
                 pomoInterval = null;
                 btn.innerHTML = '<i class="fas fa-play"></i> Tiếp tục';
             } else {
-                // Không tự bật nhạc nền — chỉ đếm giờ và báo thức ting ting khi xong
                 btn.innerHTML = '<i class="fas fa-pause"></i> Tạm dừng';
                 pomoInterval = setInterval(() => {
                     if (pomoSeconds > 0) {
