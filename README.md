@@ -1,56 +1,63 @@
 <div align="center">
   <img src="logo.jpg" alt="ThanhDev Hub Logo" width="130" height="130" style="border-radius: 50%; border: 3px solid #00ff41;" />
-  <h1>🚀 ThanhDev Hub — Personal Dashboard & Developer Workspace</h1>
-  <p><strong>Trung tâm điều khiển cá nhân, công cụ lập trình & không gian học tập phong cách Matrix Cyberpunk</strong></p>
+  <h1>🚀 ThanhDev Hub v3.0 PRO — Personal Dashboard & Cloud Workspace</h1>
+  <p><strong>Trung tâm điều khiển cá nhân hiệu suất cao, đồng bộ đa thiết bị & bộ công cụ thực chiến dành cho Developer</strong></p>
 
   ![Status](https://img.shields.io/badge/Status-Active-00ff41?style=flat-square)
-  ![Version](https://img.shields.io/badge/Version-2.6-00b09b?style=flat-square)
+  ![Version](https://img.shields.io/badge/Version-3.0%20PRO-00b09b?style=flat-square)
+  ![Performance](https://img.shields.io/badge/FPS-Uncapped%20%7C%20144Hz%2B-38bdf8?style=flat-square)
   ![Tech](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-1e293b?style=flat-square)
   ![Author](https://img.shields.io/badge/Author-Nguyễn%20Trung%20Thành-059669?style=flat-square)
 </div>
 
 ---
 
-**ThanhDev Hub** là trang Dashboard cá nhân tích hợp bộ công cụ tiện ích dành cho lập trình viên và học tập, thiết kế theo phong cách **Matrix Cyberpunk Glassmorphism** với bố cục 3 cột đối xứng, tương thích mượt mà trên mọi kích thước màn hình (Desktop, Tablet, Mobile).
+**ThanhDev Hub v3.0 PRO** là không gian làm việc và dashboard cá nhân được tối ưu hóa toàn diện về tốc độ khung hình (FPS), đồng bộ dữ liệu đám mây thời gian thực giữa nhiều thiết bị/người truy cập, đi kèm hệ thống công cụ lập trình và quản lý thời gian chuyên sâu.
 
-## ✨ Tính Năng Nổi Bật
+## ✨ Các Nâng Cấp & Tính Năng Chính (v3.0 PRO)
 
-### 1. 🖥️ Bố Cục & Giao Diện (UI/UX)
-- **Bố cục 3 cột cân đối (Symmetric 3-Column Grid):** Tự động co giãn thông minh trên Desktop, chia 2 cột song song trên Tablet và xếp dọc gọn gàng trên Mobile.
-- **Matrix Rain Engine:** Hiệu ứng mưa ký tự nền Canvas 60 FPS, hỗ trợ tạm dừng (`matrix`) hoặc chuyển đổi sang **Light Mode**.
-- **3D Tilt Profile Card:** Thẻ thông tin cá nhân trung tâm phản hồi nghiêng 3D theo chuyển động chuột, kèm Avatar 2 mặt tự động lật giữa ảnh cá nhân (`anh.jpg`) và logo (`logo.jpg`).
-- **Đa ngôn ngữ (VI / EN) & Thời tiết Real-time:** Cập nhật nhiệt độ và trạng thái thời tiết tại **Cần Thơ, VN** qua Open-Meteo API cùng đồng hồ thời gian thực.
+### 1. ⚡ Tối Ưu Hiệu Năng & Mở Khóa Giới Hạn FPS (Uncapped Engine)
+- **Matrix Canvas Engine v3:** Tối ưu hóa GPU với `will-change: transform` và `contain: content`, giảm độ trễ render trên cả PC lẫn Mobile.
+- **Tùy chỉnh & Vượt mức FPS:** Cho phép chuyển đổi trực tiếp giữa các chế độ **60 FPS**, **120 FPS**, **144 FPS** và **MAX (Uncapped — chạy tối đa theo tần số quét màn hình)** bằng cách bấm vào ô **System Monitor** ở thẻ trung tâm hoặc gõ lệnh `fps max` trong Terminal.
+- **3D Tilt Profile Card & Auto-Flip Logo:** Thẻ thông tin cá nhân nghiêng 3D mượt mà theo chuyển động chuột, kết hợp Avatar tự động lật giữa ảnh cá nhân (`anh.jpg`) và logo thương hiệu (`logo.jpg`).
 
-### 2. 💻 ThanhDev Terminal (Interactive CLI)
-Giao diện dòng lệnh mô phỏng Bash ngay trên trình duyệt, hỗ trợ phím mũi tên `↑` / `↓` để gọi lại lịch sử lệnh:
-- `help` — Hiển thị danh sách toàn bộ lệnh hỗ trợ.
-- `readme` — Mở hướng dẫn sử dụng chi tiết từng module ngay trong Terminal (hỗ trợ `readme pomo`, `readme dev`, `readme music`, `readme shortcuts`).
-- `web` — Liệt kê nhanh các trang web đang chạy Live trên GitHub Pages.
-- `contact` — Xem thông tin liên hệ, trường học (CTUT) và các kênh mạng xã hội.
-- `matrix` — Bật / tạm dừng hiệu ứng nền Matrix để tiết kiệm pin.
-- `theme` — Chuyển đổi nhanh giữa **Dark Matrix** và **Light Mode**.
-- `clear` — Xóa sạch màn hình Terminal.
-
-### 3. 🛠️ Dev Utilities (Công Cụ Lập Trình & Tạo Acc Clone)
+### 2. ☁️ Dev Utilities & Đồng Bộ Tài Khoản Email Đa Thiết Bị
+- **Đánh dấu Email Đã Sử Dụng (Cross-Device Sync):**
+  - Tích hợp đồng bộ Cloud JSON thời gian thực (tự cập nhật mỗi 6 giây) kết hợp `localStorage`.
+  - Khi bạn hoặc **bất kỳ người truy cập nào trên thiết bị khác** bấm copy (`Mail` / `Cả 2`) hoặc tick chọn, tài khoản đó lập tức được đánh dấu **`ĐÃ DÙNG`** (gạch ngang, đổi màu đỏ, ghi rõ thiết bị và thời gian sử dụng) trên **toàn bộ thiết bị**.
+  - Hỗ trợ nút **`Chưa dùng`** để copy hàng loạt chỉ những tài khoản còn mới.
 - **Quick Generators:** Tạo nhanh mật khẩu mạnh 16 ký tự, **UUID v4**, và **Unix Timestamp** chỉ với 1 cú click.
-- **Tạo hàng loạt Email Clone (`@gmail.com`):**
-  - Tùy chọn số lượng tài khoản cần tạo từ **1 đến 50 acc**.
-  - Tự động sinh tên tiếng Việt không dấu tự nhiên kèm mật khẩu mạnh riêng cho từng tài khoản.
-  - Hỗ trợ nút **Copy từng thành phần** (`Mail`, `Pass`, `Cả 2` định dạng `email|pass`) hoặc **Copy All** toàn bộ danh sách.
 
-### 4. ⏱️ Pomodoro Focus (Học Tập & Làm Việc)
-- **Tùy chỉnh thời gian linh hoạt:** Nhập trực tiếp số phút **Học (1–180p)** và **Nghỉ (1–60p)**, tự động lưu cấu hình vào `localStorage`.
-- **Không tự bật nhạc nền:** Giữ không gian yên tĩnh tuyệt đối khi đếm giờ.
-- **Chuông báo thức "Ting Ting" (Web Audio API):** Tự động phát âm thanh chuông đôi trong trẻo khi hết phiên học/nghỉ (không cần file `.mp3` ngoài), có sẵn nút test chuông ngay góc widget.
+### 3. 💻 ThanhDev Terminal OS v3.0 PRO
+Giao diện dòng lệnh tích hợp sẵn các tiện ích thực chiến (hỗ trợ phím `↑` / `↓` duyệt lịch sử lệnh):
 
-### 5. 🎵 Trình Phát Nhạc & Audio Visualizer
-- Tích hợp **Web Audio API** vẽ sóng nhạc theo tần số thời gian thực.
-- Đầy đủ chức năng: Phát/Tạm dừng (`Space`), Chuyển bài, Phát ngẫu nhiên (Shuffle), Lặp lại 1 bài (Loop), Thanh tua và Điều chỉnh âm lượng.
+| Lệnh | Chức năng chi tiết |
+| :--- | :--- |
+| `help` | Hiển thị danh sách toàn bộ câu lệnh phân loại theo nhóm |
+| `readme` | Xem nhanh tài liệu hướng dẫn sử dụng ngay trong Terminal |
+| `calc <biểu thức>` | Máy tính biểu thức toán học nhanh (VD: `calc (125 * 8) / 4 + 2^10`) |
+| `base64 <text>` | Mã hóa chuỗi sang Base64 và tự động copy vào clipboard |
+| `hash <text>` | Băm chuỗi theo chuẩn bảo mật **SHA-256** và tự động copy |
+| `ip` | Kiểm tra địa chỉ IP Public, vị trí địa lý và nhà mạng (ISP) |
+| `sysinfo` | Xem cấu hình phần cứng trình duyệt (số luồng CPU, RAM, độ phân giải) |
+| `fps <60\|120\|144\|max>` | Thiết lập mức giới hạn khung hình cho nền Matrix |
+| `pomo <phút>` | Khởi chạy nhanh đồng hồ tập trung Pomodoro với số phút tùy chọn |
+| `note <nội dung>` | Thêm nhanh một dòng mới vào khung **Ghi Chú Nhanh** |
+| `sync` | Ép đồng bộ lại dữ liệu Cloud ngay lập tức |
+| `web` | Liệt kê các dự án web đang hoạt động trên GitHub Pages |
+| `matrix` / `theme` | Bật/tắt hiệu ứng Matrix hoặc chuyển đổi **Dark / Light Mode** |
+| `clear` | Xóa sạch màn hình Terminal |
 
-### 6. 📅 Tiện Ích Quản Lý Cá Nhân
-- **Live Web Showcase:** Tự động quét và hiển thị các dự án đã bật **GitHub Pages** từ tài khoản `Nguyentrungthanhctut`.
-- **Lịch Sử Truy Cập Tự Động:** Ghi lại thời gian và liên kết các trang vừa mở, lưu trữ cục bộ trên trình duyệt.
-- **Lịch Tháng Mini & Ghi Chú Nhanh:** Xem lịch tháng trực quan và ghi chú tự động lưu (Auto-save) không lo mất dữ liệu khi tải lại trang.
+### 4. 🔔 Pomodoro Focus — Chuông Báo Thức Đa Hồi Kéo Dài
+- **Tùy chỉnh thời gian linh hoạt:** Nhập trực tiếp số phút **Học (1–180p)** và **Nghỉ (1–60p)**, tự động lưu cấu hình.
+- **Chuông báo thức công suất lớn:** Sử dụng Web Audio API tạo âm thanh chuông kép tần số cao vang **3 hồi liên tiếp (~5 giây)** kèm hiệu ứng nhấp nháy cảnh báo và nút **Tắt chuông** nhanh.
+
+### 5. 📅 Lịch Tương Tác Theo Ngày & Lịch Sử Truy Cập Live
+- **Lịch Tháng & Ghi Chú Từng Ngày:** Bấm vào **bất kỳ ngày nào trên lịch** để ghi lại deadline, lịch học hoặc sự kiện riêng của ngày đó. Các ngày có ghi chú sẽ hiển thị dấu chấm xanh nổi bật.
+- **Lịch Sử Truy Cập Toàn Trang (Real-time Tracker):** Tự động bắt và ghi lại mọi thao tác mở liên kết, truy cập dự án, tạo/sử dụng tài khoản trên toàn bộ trang web theo thời gian thực.
+
+### 6. 🎵 Trình Phát Nhạc & Audio Visualizer
+- Tích hợp **Web Audio API** hiển thị sóng nhạc theo tần số thực, hỗ trợ phím tắt `Space` để Phát/Tạm dừng, chuyển bài, phát ngẫu nhiên (Shuffle) và lặp lại (Loop).
 
 ---
 
@@ -58,8 +65,8 @@ Giao diện dòng lệnh mô phỏng Bash ngay trên trình duyệt, hỗ trợ 
 
 ```text
 ThanhDev-Hub/
-├── index.html      # Mã nguồn chính (HTML + CSS + JS tích hợp)
+├── index.html      # Mã nguồn chính (UI 3 cột, Matrix Engine, Terminal v3.0, Cloud Sync)
 ├── anh.jpg         # Ảnh đại diện mặt trước
-├── logo.jpg        # Logo thương hiệu ThanhDev Hub (hiển thị ở README, Avatar mặt sau & Favicon)
+├── logo.jpg        # Logo thương hiệu ThanhDev Hub (README, Avatar mặt sau & Favicon)
 ├── nhac.mp3        # Danh sách nhạc nền (nhac.mp3 -> nhac6.mp3)
-└── README.md       # Tài liệu hướng dẫn sử dụng dự án
+└── README.md       # Tài liệu hướng dẫn sử dụng chi tiết dự án
